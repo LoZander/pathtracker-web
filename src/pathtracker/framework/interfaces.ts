@@ -26,8 +26,9 @@ export interface Tracker {
     /**
      * Removes a character from the tracker.
      * @param name The character to be removed from the tracker.
+     * @returns The character that was removed.
      */
-    removeCharacter(name: String): void;
+    remove(name: String): Character;
 
     /**
      * Returns a specific character form the tracker.

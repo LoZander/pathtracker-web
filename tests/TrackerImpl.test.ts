@@ -8,37 +8,31 @@ describe('TDD of TrackerImpl', () => {
     describe('TDD of adding characters', () => {
         test('Adding a player character should add a character with the right type', () => {
             tracker.addCharacter('Test', 20, CharacterType.player);
-    
             expect(tracker.getCharacter('Test').type).toBe(CharacterType.player);
         });
     
         test('Adding an enemy character should add a character with the right type', () => {
             tracker.addCharacter('Test', 12, CharacterType.enemy);
-    
             expect(tracker.getCharacter('Test').type).toBe(CharacterType.enemy);
         });
     
         test('Adding a character with the name \"Test\" should add a character with that name', () => {
             tracker.addCharacter('Test', 23, CharacterType.player);
-    
             expect(tracker.getCharacter('Test').name).toBe('Test');
         });
     
         test('Adding a character with the name \"Test2\" should add a character with that name', () => {
             tracker.addCharacter("Test2", 21, CharacterType.player);
-    
             expect(tracker.getCharacter("Test2").name).toBe("Test2");
         });
     
         test('Adding a character with initiative 10 shold add a character with that initiative', () => {
             tracker.addCharacter("Test", 10, CharacterType.player);
-    
             expect(tracker.getCharacter("Test").initiative).toBe(10);
         })
     
         test('Adding a character with initiative 20 should add a character with that initiative', () => {
             tracker.addCharacter('Test', 20, CharacterType.player);
-    
             expect(tracker.getCharacter('Test').initiative).toBe(20);
         });
     
@@ -92,6 +86,86 @@ describe('TDD of TrackerImpl', () => {
             expect(tracker.characterInTurn.name).toBe('Test3');
             tracker.nextTurn();
             expect(tracker.characterInTurn.name).toBe('Test1');
+        });
+    });
+
+    describe('TDD of sorting', () => {
+        test('Tracker should be sorted firstly by initiative', () => {
+            tracker.addCharacter('Test3', 10, CharacterType.player);
+            tracker.addCharacter('Test1', 20, CharacterType.enemy);
+            tracker.addCharacter('Test2', 15, CharacterType.player);
+            
+            tracker.nextTurn();
+            expect(tracker.characterInTurn.name).toBe('Test1');
+
+            tracker.nextTurn();
+            expect(tracker.characterInTurn.name).toBe('Test2');
+
+            tracker.nextTurn();
+            expect(tracker.characterInTurn.name).toBe('Test3');
+        });
+
+        test('Tracker should be sorted secondly by type', () => {
+            tracker.addCharacter('Test4', 10, CharacterType.player);
+            tracker.addCharacter('Test2', 20, CharacterType.enemy);
+            tracker.addCharacter('Test1', 20, CharacterType.player);
+            tracker.addCharacter('Test3', 15, CharacterType.player);
+
+            tracker.nextTurn();
+            expect(tracker.characterInTurn.name).toBe('Test1');
+            tracker.nextTurn();
+            expect(tracker.characterInTurn.name).toBe('Test2');
+            tracker.nextTurn();
+            expect(tracker.characterInTurn.name).toBe('Test3');
+            tracker.nextTurn();
+            expect(tracker.characterInTurn.name).toBe('Test4');
+        });
+
+        test('Tracker should be sorted thirdly by name', () => {
+            tracker.addCharacter('d', 10, CharacterType.player);
+            tracker.addCharacter('c', 20, CharacterType.enemy);
+            tracker.addCharacter('b', 20, CharacterType.player);
+            tracker.addCharacter('a', 20, CharacterType.player);
+
+            tracker.nextTurn();
+            expect(tracker.characterInTurn.name).toBe('a');
+            tracker.nextTurn();
+            expect(tracker.characterInTurn.name).toBe('b');
+            tracker.nextTurn();
+            expect(tracker.characterInTurn.name).toBe('c');
+            tracker.nextTurn();
+            expect(tracker.characterInTurn.name).toBe('d');
+        });
+    });
+
+    describe('TDD of removing characters', () => {
+        test('Characters should be removable by name', () => {
+            tracker.addCharacter('Test1', 20, CharacterType.enemy);
+            tracker.addCharacter('Test2', 15, CharacterType.player);
+            tracker.addCharacter('Test3', 10, CharacterType.player);
+
+            expect(tracker.remove('Test2').name).toBe('Test2');
+            expect(tracker.getCharacter('Test2')).toBeUndefined();
+        });
+
+        test('Removing a character should not remove anything else', () => {
+            tracker.addCharacter('Test1', 20, CharacterType.enemy);
+            tracker.addCharacter('Test2', 15, CharacterType.player);
+            tracker.addCharacter('Test3', 10, CharacterType.player);
+
+            tracker.remove('Test2');
+            expect(tracker.getCharacter('Test1')).toBeDefined();
+            expect(tracker.getCharacter('Test3')).toBeDefined();
+        });
+    });
+
+    describe('Getting characters', () => {
+        test('Getting a character that doesn\'t exist returns undefined', () => {
+            expect(tracker.getCharacter('Test')).toBeUndefined;
+        });
+
+        test('Getting the character in turn, when no one is in turn, returns null', () => {
+            expect(tracker.characterInTurn).toBeNull;
         });
     });
 });

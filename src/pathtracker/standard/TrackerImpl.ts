@@ -26,17 +26,17 @@ export class TrackerImpl implements Tracker {
     }
 
     nextTurn(): void {
-        const isTrackerEmpty: boolean = this.size == 0;
+        const isTrackerEmpty: boolean = this.size === 0;
         if(isTrackerEmpty) return;
 
-        const isFirstTurn: boolean = this._characterInTurn == null;
+        const isFirstTurn: boolean = this._characterInTurn === null;
         if(isFirstTurn) {
             this._characterInTurn = this._characters[0];
             this._round = 1;
         } else {
             const nextIndex = this.nextIndex();
             this._characterInTurn = this.characters[nextIndex];
-            const isNewRound: boolean = nextIndex == 0
+            const isNewRound: boolean = nextIndex === 0
             if(isNewRound) this._round++;
         }
     }
@@ -47,13 +47,28 @@ export class TrackerImpl implements Tracker {
 
     addCharacter(name: String, initiative: number, type: CharacterType): void {
         this._characters.push({name: name, initiative: initiative, type: type});
-        this._characters.sort((a,b) => b.initiative - a.initiative);
+        this.sort();
     }
-    removeCharacter(name: String): void {
-        throw new Error('Method not implemented.');
+
+    private sort(): void {
+        this._characters.sort((a,b) => {
+            if(a.name.toLowerCase() == b.name.toLocaleUpperCase()) return 0;
+            if(a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+            return 1;
+        }).sort((a,b) => {
+            if(a.type === b.type) return 0;
+            if(a.type === CharacterType.player) return -1;
+            return 1;
+        }).sort((a,b) => b.initiative - a.initiative);
+    }
+
+    remove(name: String): Character {
+        const removee = this.getCharacter(name);
+        const removeIndex = this.characters.indexOf(removee);
+        this.characters.splice(removeIndex,1);
+        return removee;
     }
     getCharacter(name: String): Character {
-        let c = this._characters.find(e => e.name == name);
-        return c;
+        return this.characters.find(e => e.name == name);;
     }
 }
