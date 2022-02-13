@@ -1,7 +1,7 @@
 import {Tracker,Character, CharacterType} from '../framework/interfaces';
 export class TrackerImpl implements Tracker {
     _characters: Character[];
-    _characterInTurn: Character;
+    _characterInTurn: Character | null;
     _round: number;
     constructor() {
         this._characters = [];
@@ -42,6 +42,7 @@ export class TrackerImpl implements Tracker {
     }
 
     private nextIndex(): number {
+        if(this.characterInTurn === null) return 0;
         return (this.characters.indexOf(this.characterInTurn) + 1) % this.size;
     }
 
@@ -62,14 +63,15 @@ export class TrackerImpl implements Tracker {
         }).sort((a,b) => b.initiative - a.initiative);
     }
 
-    remove(name: String): Character {
+    remove(name: String): Character | null {
         const removee = this.getCharacter(name);
+        if(removee === undefined) return null;
         const removeIndex = this.characters.indexOf(removee);
         if(removee == this.characterInTurn) this.nextTurn();
         this.characters.splice(removeIndex,1);
         return removee;
     }
-    getCharacter(name: String): Character {
+    getCharacter(name: String): Character | undefined {
         return this.characters.find(e => e.name == name);;
     }
 

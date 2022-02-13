@@ -1,12 +1,7 @@
+/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
   preset: 'ts-jest',
-  transform: {'^.+\\.ts?$': 'ts-jest'},
   testEnvironment: 'node',
-  testRegex: '/tests/.*\\.(test|spec)?\\.(ts|tsx)$',
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  globals: {
-    'ts-jest': {
-      isolatedModules: true
-    }
-  }
+  verbose: true,
+  maxWorkers: 1
 };

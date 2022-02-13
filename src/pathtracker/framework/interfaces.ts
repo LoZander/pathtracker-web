@@ -13,7 +13,7 @@ export interface Tracker {
      * Returns the character whose turn it currently is.
      * @returns The character in turn.
      */
-    get characterInTurn(): Character;
+    get characterInTurn(): Character | null;
 
     /**
      * Adds a new character to the tracker.
@@ -28,14 +28,14 @@ export interface Tracker {
      * @param name The character to be removed from the tracker.
      * @returns The character that was removed.
      */
-    remove(name: String): Character;
+    remove(name: String): Character | null;
 
     /**
      * Returns a specific character form the tracker.
      * @param name The name of the character to be fetched.
      * @returns The character fetched.
      */
-    getCharacter(name: String): Character;
+    getCharacter(name: String): Character | undefined;
 
     /**
      * Removes all characters and resets round count.
