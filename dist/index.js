@@ -3,10 +3,10 @@ import { TrackerImpl } from './pathtracker/standard/TrackerImpl.js';
 let list = document.getElementById("characters");
 const tracker = new TrackerImpl();
 tracker.addCharacter("Test1", 30, CharacterType.player);
-tracker.addCharacter("Test4", 10, CharacterType.player);
-tracker.addCharacter("Test2", 2, CharacterType.enemy);
-tracker.addCharacter("Test6", 20, CharacterType.enemy);
-tracker.addCharacter("Test10", 23, CharacterType.player);
+tracker.addCharacter("Test2", 10, CharacterType.player);
+tracker.addCharacter("Test3", 2, CharacterType.enemy);
+tracker.addCharacter("Test4", 20, CharacterType.enemy);
+tracker.addCharacter("Test5", 23, CharacterType.player);
 function update() {
     list.innerHTML = "";
     tracker.characters.forEach(e => {

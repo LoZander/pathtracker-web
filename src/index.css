@@ -1,18 +1,84 @@
-@media screen and (max-width: 600px) {
-    .character {
+@media screen and (max-width: 400px) {
+    * {
         font-size: 1em;
+    }
+
+    #controls {
+        position: fixed;
+        bottom: 1em;
+        left: 1rem;
+        right: 1rem;
+        display: grid;
+        grid-column: 1;
+        grid-row: auto;
+    }
+    #controls > input,button,select {
+        font-size: 1.5rem;
+        height: 3rem;
+        padding: auto;
+        box-sizing: border-box;
     }
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 400px) {
     .character {
         font-size: 1em;
     }
+
+    #controls {
+        position: fixed;
+        bottom: 1em;
+        left: 50%;
+        transform: translateX(-50%);
+        display: grid;
+    }
+    #controls > button {
+        font-size: 1.5rem;
+        grid-column-start: 1;
+        grid-column-end: 4;
+    }
+    #controls > input {
+        font-size: 1.5rem;
+        max-width: 10rem;
+    }
+    #nameInput {
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 2;
+        grid-row-end: 2;
+    }
+    #initInput {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 2;
+        grid-row-end: 2;
+    }
+    #typeInput {
+        font-size: 1.5rem;
+        grid-column-start: 3;
+        grid-column-end: 4;
+        grid-row-start: 2;
+        grid-row-end: 2;
+    }
+    
 }
 
 @media screen and (min-width: 800px) {
     .character {
         font-size: 1em;
+    }
+
+    #controls {
+        position: fixed;
+        bottom: 1em;
+        left: 50%;
+        transform: translateX(-50%);
+        display: grid;
+        grid-column: 1;
+        grid-row: auto;
+    }
+    #controls > input,button {
+        font-size: 1.5rem;
     }
 }
 
@@ -20,21 +86,22 @@
     text-align: center;
 }
 .character {
-    margin: 0.4em;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 0.4rem;
     background-color: lightgray;
     border: 2px solid darkgray;
     display: flex;
     flex-direction: row;
-    width: 14em;
+    width: 14rem;
     align-self: center;
 }
 
 .inturn {
     transform:scale();
     transition: 2s;
-    font-size: 1.2em;
-    width: 18em;
-    height: 4em;
+    font-size: 1.2rem;
+    width: 18rem;
+    height: 3.5rem;
 }
 
 .character > div {
@@ -42,33 +109,19 @@
 }
 
 .character > div.init {
-    font-size: 2em;
-    flex-basis: 2em;
-    padding: 0.2em;
+    font-size: 2rem;
+    flex-basis: 2rem;
+    padding: 0.2rem;
 }
 
 .character > div.name {
-    font-size: 1.5em;
-    flex-basis: 4em;
-    flex-grow: 10em;
+    font-size: 1.5rem;
+    flex-basis: 4rem;
+    flex-grow: 10rem;
     text-align: left;
 }
 
 #characters {
     display: flex;
     flex-flow: column nowrap;
-}
-
-#controls {
-    position: fixed;
-    bottom: 1em;
-    left: 50%;
-    transform: translateX(-50%);
-    display: grid;
-    grid-column: 1;
-    grid-row: auto;
-}
-
-#controls > input,button {
-    font-size: 1.5em;
 }

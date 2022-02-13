@@ -1,4 +1,4 @@
-import { CharacterType } from '../framework/interfaces.js';
+import { CharacterType } from '../framework/interfaces';
 export class TrackerImpl {
     constructor() {
         this._characters = [];
