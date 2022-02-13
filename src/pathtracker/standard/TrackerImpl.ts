@@ -47,6 +47,9 @@ export class TrackerImpl implements Tracker {
     }
 
     addCharacter(name: string, initiative: number, type: CharacterType): void {
+        const isEmptyName = name === '';
+        if(isEmptyName) throw new Error("Can't add a character with no name");
+
         const isDuplicate = this.getCharacter(name) !== undefined;
         if(isDuplicate) throw new Error("Can't add a character that already exists");
 

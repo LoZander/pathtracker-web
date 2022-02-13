@@ -55,6 +55,10 @@ describe('TDD of TrackerImpl', () => {
             tracker.addCharacter('Test1', 20, CharacterType.player);
             expect(() => tracker.addCharacter('Test1', 20, CharacterType.player)).toThrowError("Can't add a character that already exists");
         })
+
+        test('Adding a character with an empty name should throw an exception', () => {
+            expect(() => tracker.addCharacter('', 10, CharacterType.player)).toThrowError("Can't add a character with no name");
+        });
     });
 
     describe('TDD of ending turns and rounds', () => {
