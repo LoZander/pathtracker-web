@@ -82,3 +82,10 @@ export enum CharacterType {
     player = "PLAYER",
     enemy = "ENEMY"
 }
+
+export interface TrackerObserver {
+    endOfTurn(next: Character): void;
+    characterListChanged(): void;
+    characterChanged(character: Character): void;
+    clear(): void;
+}
