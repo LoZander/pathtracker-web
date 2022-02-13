@@ -21,21 +21,21 @@ export interface Tracker {
      * @param initiative The initiative of the new character.
      * @param type The type of the new character.
      */
-    addCharacter(name: String, initiative: number, type: CharacterType): void;
+    addCharacter(name: string, initiative: number, type: CharacterType): void;
 
     /**
      * Removes a character from the tracker.
      * @param name The character to be removed from the tracker.
      * @returns The character that was removed.
      */
-    remove(name: String): Character | null;
+    remove(name: string): Character | null;
 
     /**
      * Returns a specific character form the tracker.
      * @param name The name of the character to be fetched.
      * @returns The character fetched.
      */
-    getCharacter(name: String): Character | undefined;
+    getCharacter(name: string): Character | undefined;
 
     /**
      * Removes all characters and resets round count.
@@ -63,12 +63,12 @@ export interface Tracker {
 
 /**
  * A Character represents a character of the game, having
- * @property {String} name The name of the character.
+ * @property {string} name The name of the character.
  * @property {number} initiative The initiative of the character.
  * @property {CharacterType} type The type of the character.
  */
 export interface Character {
-    get name(): String;
+    get name(): string;
     get initiative(): number;
     get type(): CharacterType;
 }

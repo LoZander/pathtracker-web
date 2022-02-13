@@ -1,0 +1,74 @@
+@media screen and (max-width: 600px) {
+    .character {
+        font-size: 1em;
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .character {
+        font-size: 1em;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    .character {
+        font-size: 1em;
+    }
+}
+
+#content {
+    text-align: center;
+}
+.character {
+    margin: 0.4em;
+    background-color: lightgray;
+    border: 2px solid darkgray;
+    display: flex;
+    flex-direction: row;
+    width: 14em;
+    align-self: center;
+}
+
+.inturn {
+    transform:scale();
+    transition: 2s;
+    font-size: 1.2em;
+    width: 18em;
+    height: 4em;
+}
+
+.character > div {
+    align-self: center;
+}
+
+.character > div.init {
+    font-size: 2em;
+    flex-basis: 2em;
+    padding: 0.2em;
+}
+
+.character > div.name {
+    font-size: 1.5em;
+    flex-basis: 4em;
+    flex-grow: 10em;
+    text-align: left;
+}
+
+#characters {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+#controls {
+    position: fixed;
+    bottom: 1em;
+    left: 50%;
+    transform: translateX(-50%);
+    display: grid;
+    grid-column: 1;
+    grid-row: auto;
+}
+
+#controls > input,button {
+    font-size: 1.5em;
+}

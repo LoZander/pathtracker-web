@@ -1,30 +1,57 @@
-var _a;
 import { CharacterType } from './pathtracker/framework/interfaces.js';
 import { TrackerImpl } from './pathtracker/standard/TrackerImpl.js';
 let list = document.getElementById("characters");
 const tracker = new TrackerImpl();
+tracker.addCharacter("Test1", 30, CharacterType.player);
+tracker.addCharacter("Test4", 10, CharacterType.player);
+tracker.addCharacter("Test2", 2, CharacterType.enemy);
+tracker.addCharacter("Test6", 20, CharacterType.enemy);
+tracker.addCharacter("Test10", 23, CharacterType.player);
 function update() {
     list.innerHTML = "";
     tracker.characters.forEach(e => {
-        let entry = document.createElement('li');
-        let entryText = document.createTextNode(e.initiative + " " + e.name);
-        entry.appendChild(entryText);
-        if (list !== null) {
-            list.appendChild(entry);
-        }
+        let entry = createEntry(e.name, e.initiative, e.type);
+        list.append(entry);
     });
 }
+function createEntry(name, initiative, type) {
+    let entry = document.createElement("div");
+    let initDiv = document.createElement("div");
+    initDiv.textContent = initiative + "";
+    let nameDiv = document.createElement("div");
+    nameDiv.textContent = name;
+    entry.appendChild(initDiv);
+    entry.appendChild(nameDiv);
+    entry.classList.add("character");
+    initDiv.classList.add("init");
+    nameDiv.classList.add("name");
+    if (tracker.characterInTurn === null)
+        return entry;
+    if (tracker.characterInTurn.name === name)
+        entry.classList.add("inturn");
+    return entry;
+}
 let add = () => {
-    let nameField = document.getElementById("nameInput");
-    let initiativeField = document.getElementById("initInput");
-    let name = nameField.value;
-    let initiative = initiativeField.value;
-    console.log(name + initiative);
-    tracker.addCharacter(name, parseInt(initiative), CharacterType.player);
-    console.log(tracker.characters);
+    let name = getNameInput();
+    let initiative = getInitiativeInput();
+    tracker.addCharacter(name, initiative, CharacterType.player);
     update();
 };
-(_a = document.getElementById("addButton")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", add);
+let nextTurn = () => {
+    tracker.nextTurn();
+    update();
+};
+function getNameInput() {
+    return getInputValue("nameInput");
+}
+function getInitiativeInput() {
+    return parseInt(getInputValue("initInput"));
+}
+function getInputValue(id) {
+    return document.getElementById(id).value;
+}
+document.getElementById("addButton").addEventListener("click", add);
+document.getElementById("nextTurnButton").addEventListener("click", nextTurn);
 window.onload = () => {
     update();
 };

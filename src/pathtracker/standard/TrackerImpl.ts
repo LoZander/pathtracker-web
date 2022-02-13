@@ -46,7 +46,7 @@ export class TrackerImpl implements Tracker {
         return (this.characters.indexOf(this.characterInTurn) + 1) % this.size;
     }
 
-    addCharacter(name: String, initiative: number, type: CharacterType): void {
+    addCharacter(name: string, initiative: number, type: CharacterType): void {
         this._characters.push({name: name, initiative: initiative, type: type});
         this.sort();
     }
@@ -63,7 +63,7 @@ export class TrackerImpl implements Tracker {
         }).sort((a,b) => b.initiative - a.initiative);
     }
 
-    remove(name: String): Character | null {
+    remove(name: string): Character | null {
         const removee = this.getCharacter(name);
         if(removee === undefined) return null;
         const removeIndex = this.characters.indexOf(removee);
@@ -71,7 +71,7 @@ export class TrackerImpl implements Tracker {
         this.characters.splice(removeIndex,1);
         return removee;
     }
-    getCharacter(name: String): Character | undefined {
+    getCharacter(name: string): Character | undefined {
         return this.characters.find(e => e.name == name);;
     }
 

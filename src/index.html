@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="./index.css"></link>
         <script type="module" src="../dist/index.js"></script>
     </head>
     <body>
-        <input id="nameInput" type="text" value=""/>
-        <input id="initInput" type="text" value=""/>
-        <button id="addButton">Add</button>
-        <div>
-            <ul id="characters">
-            
-            </ul>
+        <div id="content">
+            <div id = characters></div>
+            <div id = controls>
+                <button id="nextTurnButton">Next turn</button>
+                <input id="nameInput" type="text" value="" placeholder="Name"/>
+                <input id="initInput" type="text" value="" placeholder="Initiative"/>
+                <button id="addButton">Add</button>
+            </div>
         </div>
     </body>
 </html>
