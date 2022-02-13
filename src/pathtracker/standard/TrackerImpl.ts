@@ -8,7 +8,7 @@ export class TrackerImpl implements Tracker {
         this._characterInTurn = null;
         this._round = 0;
     }
-    
+
     get characters(): Character[] {
         return this._characters;
     }
@@ -71,5 +71,10 @@ export class TrackerImpl implements Tracker {
     }
     getCharacter(name: String): Character {
         return this.characters.find(e => e.name == name);;
+    }
+
+    clear(): void {
+        this._characters = []
+        this._round = 0;
     }
 }

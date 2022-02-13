@@ -38,6 +38,11 @@ export interface Tracker {
     getCharacter(name: String): Character;
 
     /**
+     * Removes all characters and resets round count.
+     */
+    clear(): void;
+
+    /**
      * Returns a list of all the characters in the tracker.
      * @returns List of all the characters.
      */

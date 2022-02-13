@@ -187,4 +187,32 @@ describe('TDD of TrackerImpl', () => {
             expect(tracker.characterInTurn).toBeNull;
         });
     });
+
+    describe('Clearing of the tracker', () => {
+        test('Clearing should remove all characters', () => {
+            tracker.addCharacter('Test1', 20, CharacterType.enemy);
+            tracker.addCharacter('Test2', 15, CharacterType.player);
+            tracker.addCharacter('Test3', 10, CharacterType.player);
+            tracker.nextTurn()
+            tracker.nextTurn()
+            tracker.nextTurn()
+            tracker.nextTurn()
+            tracker.clear()
+
+            expect(tracker.size).toBe(0);
+        });
+
+        test('Clearing should reset round count to 0', () => {
+            tracker.addCharacter('Test1', 20, CharacterType.enemy);
+            tracker.addCharacter('Test2', 15, CharacterType.player);
+            tracker.addCharacter('Test3', 10, CharacterType.player);
+            tracker.nextTurn()
+            tracker.nextTurn()
+            tracker.nextTurn()
+            tracker.nextTurn()
+            tracker.clear()
+
+            expect(tracker.round).toBe(0);
+        });
+    });
 });
