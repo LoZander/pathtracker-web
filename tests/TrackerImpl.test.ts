@@ -42,6 +42,14 @@ describe('TDD of TrackerImpl', () => {
     
             expect(tracker.size).toBe(2);
         });    
+
+        test('Adding a character with a higher initiative, doesn\'t change the character in turn', () => {
+            tracker.addCharacter('Test1', 20, CharacterType.player);
+            tracker.addCharacter('Test2', 10, CharacterType.player);
+            tracker.nextTurn();
+            tracker.addCharacter('Test3', 30, CharacterType.enemy);
+            expect(tracker.characterInTurn.name).toBe('Test1');
+        });
     });
 
     describe('TDD of ending turns and rounds', () => {
@@ -156,6 +164,17 @@ describe('TDD of TrackerImpl', () => {
             tracker.remove('Test2');
             expect(tracker.getCharacter('Test1')).toBeDefined();
             expect(tracker.getCharacter('Test3')).toBeDefined();
+        });
+        
+        test('Removing the character in turn, makes the next character in turn', () => {
+            tracker.addCharacter('Test1', 20, CharacterType.enemy);
+            tracker.addCharacter('Test2', 15, CharacterType.player);
+            tracker.addCharacter('Test3', 10, CharacterType.player);
+
+            tracker.nextTurn();
+            tracker.nextTurn();
+            tracker.remove('Test2');
+            expect(tracker.characterInTurn.name).toBe('Test3');
         });
     });
 
