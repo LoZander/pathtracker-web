@@ -47,6 +47,9 @@ export class TrackerImpl implements Tracker {
     }
 
     addCharacter(name: string, initiative: number, type: CharacterType): void {
+        const isDuplicate = this.getCharacter(name) !== undefined;
+        if(isDuplicate) throw new Error("Can't add a character that already exists");
+
         this._characters.push({name: name, initiative: initiative, type: type});
         this.sort();
     }

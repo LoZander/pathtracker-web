@@ -50,6 +50,11 @@ describe('TDD of TrackerImpl', () => {
             tracker.addCharacter('Test3', 30, CharacterType.enemy);
             expect(tracker.characterInTurn.name).toBe('Test1');
         });
+
+        test('Adding an already existing character should throw an exception', () => {
+            tracker.addCharacter('Test1', 20, CharacterType.player);
+            expect(() => tracker.addCharacter('Test1', 20, CharacterType.player)).toThrowError("Can't add a character that already exists");
+        })
     });
 
     describe('TDD of ending turns and rounds', () => {
