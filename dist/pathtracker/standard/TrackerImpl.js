@@ -17,7 +17,7 @@ export class TrackerImpl {
     }
     set characterInTurn(character) {
         this._characterInTurn = character;
-        this._characterObservers.forEach(e => e.characterInTurnChanged);
+        this._characterObservers.forEach(e => e.characterInTurnChanged(character));
     }
     get size() {
         return this._characters.length;

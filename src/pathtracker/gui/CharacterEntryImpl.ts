@@ -5,7 +5,7 @@ export class CharacterEntryImpl implements CharacterEntry,CharacterObserver {
     _character: Character;
     _nameDiv: HTMLDivElement;
     _initDiv: HTMLDivElement;
-    constructor(character: Character) {
+    constructor(character: Character, tracker: Tracker) {
         this._entryDiv = document.createElement("div");
         this._character = character;
         let initDiv = document.createElement("div");
@@ -20,6 +20,16 @@ export class CharacterEntryImpl implements CharacterEntry,CharacterObserver {
         this.entryDiv.classList.add("character");
         initDiv.classList.add("init");
         nameDiv.classList.add("name");
+        
+        this.setInTurn(tracker.characterInTurn);
+    }
+
+    setInTurn(inturn: Character) {
+        if(this._character === inturn) {
+            this.entryDiv.classList.add("inturn");
+        } else {
+            this.entryDiv.classList.remove("inturn");
+        }
     }
 
     get entryDiv(): HTMLDivElement {
@@ -33,6 +43,6 @@ export class CharacterEntryImpl implements CharacterEntry,CharacterObserver {
         throw new Error("Method not implemented.");
     }
     characterInTurnChanged(inturn: Character): void {
-        if(this._character === inturn) this.entryDiv.classList.add("inturn");
+        this.setInTurn(inturn);
     }
 }

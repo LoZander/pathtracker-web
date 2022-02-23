@@ -27,7 +27,7 @@ export class TrackerImpl implements Tracker {
 
     set characterInTurn(character: Character) {
         this._characterInTurn = character;
-        this._characterObservers.forEach(e => e.characterInTurnChanged);
+        this._characterObservers.forEach(e => e.characterInTurnChanged(character));
     }
 
     get size(): number {

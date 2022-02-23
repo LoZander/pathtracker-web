@@ -8,8 +8,14 @@ tracker.addCharacter("Test2", 10, CharacterType.player);
 tracker.addCharacter("Test3", 2, CharacterType.enemy);
 tracker.addCharacter("Test4", 20, CharacterType.enemy);
 tracker.addCharacter("Test5", 23, CharacterType.player);
-document.getElementById("addButton").addEventListener("click", gui.add);
-document.getElementById("nextTurnButton").addEventListener("click", gui.nextTurn);
+function add() {
+    gui.add();
+}
+function nextTurn() {
+    gui.nextTurn();
+}
+document.getElementById("addButton").addEventListener("click", add);
+document.getElementById("nextTurnButton").addEventListener("click", nextTurn);
 window.onload = () => {
     gui.update();
 };

@@ -87,6 +87,8 @@
     text-align: center;
 }
 .character {
+    transform: scale();
+    transition: 0.5s;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     margin: 0.4rem;
     background-color: lightgray;
@@ -98,8 +100,8 @@
 }
 
 .inturn {
-    transform:scale();
-    transition: 2s;
+    transform: scale();
+    transition: 0.5s;
     font-size: 1.2rem;
     width: 18rem;
     height: 3.5rem;

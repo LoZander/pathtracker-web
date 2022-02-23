@@ -1,4 +1,5 @@
 import { Character, CharacterType, Gui, Tracker, TrackerObserver } from "../framework/interfaces";
+import { TrackerImpl } from "../standard/TrackerImpl";
 import { CharacterEntryImpl } from "./CharacterEntryImpl";
 
 export class GuiImpl implements Gui,TrackerObserver {
@@ -14,18 +15,14 @@ export class GuiImpl implements Gui,TrackerObserver {
     update(): void {
         this._charactersDiv.innerHTML = "";
         this._tracker.characters.forEach(e => {
-            let entry = new CharacterEntryImpl(e);
+            let entry = new CharacterEntryImpl(e,this._tracker);
             this._tracker.addCharacterObserver(entry);
             this._charactersDiv.append(entry.entryDiv);
         });
     }
 
     nextTurn(): void {
-        let name = this.getNameInput()
-        let initiative = this.getInitiativeInput();
-        this._tracker.addCharacter(name, initiative, CharacterType.player);
-
-        this.update();
+        this._tracker.nextTurn();
     }
     add(): void {
         let name = this.getNameInput()
