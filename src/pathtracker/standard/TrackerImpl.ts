@@ -1,12 +1,16 @@
-import {Tracker,Character, CharacterType} from '../framework/interfaces';
+import {Tracker,Character, CharacterType, TrackerObserver, CharacterObserver} from '../framework/interfaces';
 export class TrackerImpl implements Tracker {
     _characters: Character[];
     _characterInTurn: Character | null;
     _round: number;
+    _trackerObserver: TrackerObserver;
+    _characterObservers: CharacterObserver[];
+    
     constructor() {
         this._characters = [];
         this._characterInTurn = null;
         this._round = 0;
+        this._characterObservers = [];
     }
 
     get characters(): Character[] {
@@ -21,6 +25,11 @@ export class TrackerImpl implements Tracker {
         return this._characterInTurn;
     }
 
+    set characterInTurn(character: Character) {
+        this._characterInTurn = character;
+        this._characterObservers.forEach(e => e.characterInTurnChanged);
+    }
+
     get size(): number {
         return this._characters.length;
     }
@@ -29,13 +38,13 @@ export class TrackerImpl implements Tracker {
         const isTrackerEmpty: boolean = this.size === 0;
         if(isTrackerEmpty) return;
 
-        const isFirstTurn: boolean = this._characterInTurn === null;
+        const isFirstTurn: boolean = this.characterInTurn === null;
         if(isFirstTurn) {
-            this._characterInTurn = this._characters[0];
+            this.characterInTurn = this._characters[0];
             this._round = 1;
         } else {
             const nextIndex = this.nextIndex();
-            this._characterInTurn = this.characters[nextIndex];
+            this.characterInTurn = this.characters[nextIndex];
             const isNewRound: boolean = nextIndex === 0
             if(isNewRound) this._round++;
         }
@@ -55,6 +64,8 @@ export class TrackerImpl implements Tracker {
 
         this._characters.push({name: name, initiative: initiative, type: type});
         this.sort();
+
+        this._trackerObserver.characterListChanged();
     }
 
     private sort(): void {
@@ -84,5 +95,13 @@ export class TrackerImpl implements Tracker {
     clear(): void {
         this._characters = []
         this._round = 0;
+    }
+
+    addTrackerObserver(trackerObserver: TrackerObserver): void {
+        this._trackerObserver = trackerObserver;
+    }
+
+    addCharacterObserver(characterObserver: CharacterObserver): void {
+        this._characterObservers.push(characterObserver);
     }
 }

@@ -1,9 +1,10 @@
-import { CharacterType } from '../framework/interfaces';
+import { CharacterType } from '../framework/interfaces.js';
 export class TrackerImpl {
     constructor() {
         this._characters = [];
         this._characterInTurn = null;
         this._round = 0;
+        this._characterObservers = [];
     }
     get characters() {
         return this._characters;
@@ -14,6 +15,10 @@ export class TrackerImpl {
     get characterInTurn() {
         return this._characterInTurn;
     }
+    set characterInTurn(character) {
+        this._characterInTurn = character;
+        this._characterObservers.forEach(e => e.characterInTurnChanged);
+    }
     get size() {
         return this._characters.length;
     }
@@ -21,14 +26,14 @@ export class TrackerImpl {
         const isTrackerEmpty = this.size === 0;
         if (isTrackerEmpty)
             return;
-        const isFirstTurn = this._characterInTurn === null;
+        const isFirstTurn = this.characterInTurn === null;
         if (isFirstTurn) {
-            this._characterInTurn = this._characters[0];
+            this.characterInTurn = this._characters[0];
             this._round = 1;
         }
         else {
             const nextIndex = this.nextIndex();
-            this._characterInTurn = this.characters[nextIndex];
+            this.characterInTurn = this.characters[nextIndex];
             const isNewRound = nextIndex === 0;
             if (isNewRound)
                 this._round++;
@@ -40,8 +45,15 @@ export class TrackerImpl {
         return (this.characters.indexOf(this.characterInTurn) + 1) % this.size;
     }
     addCharacter(name, initiative, type) {
+        const isEmptyName = name === '';
+        if (isEmptyName)
+            throw new Error("Can't add a character with no name");
+        const isDuplicate = this.getCharacter(name) !== undefined;
+        if (isDuplicate)
+            throw new Error("Can't add a character that already exists");
         this._characters.push({ name: name, initiative: initiative, type: type });
         this.sort();
+        this._trackerObserver.characterListChanged();
     }
     sort() {
         this._characters.sort((a, b) => {
@@ -75,5 +87,11 @@ export class TrackerImpl {
     clear() {
         this._characters = [];
         this._round = 0;
+    }
+    addTrackerObserver(trackerObserver) {
+        this._trackerObserver = trackerObserver;
+    }
+    addCharacterObserver(characterObserver) {
+        this._characterObservers.push(characterObserver);
     }
 }

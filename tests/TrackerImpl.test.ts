@@ -187,7 +187,7 @@ describe('TDD of TrackerImpl', () => {
         });
     });
 
-    describe('Getting characters', () => {
+    describe('TDD of getting characters', () => {
         test('Getting a character that doesn\'t exist returns undefined', () => {
             expect(tracker.getCharacter('Test')).toBeUndefined;
         });
@@ -197,7 +197,7 @@ describe('TDD of TrackerImpl', () => {
         });
     });
 
-    describe('Clearing of the tracker', () => {
+    describe('TDD of clearing of the tracker', () => {
         test('Clearing should remove all characters', () => {
             tracker.addCharacter('Test1', 20, CharacterType.enemy);
             tracker.addCharacter('Test2', 15, CharacterType.player);

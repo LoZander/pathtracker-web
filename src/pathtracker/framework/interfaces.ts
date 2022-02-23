@@ -42,6 +42,9 @@ export interface Tracker {
      */
     clear(): void;
 
+    addTrackerObserver(trackerObserver: TrackerObserver): void;
+    addCharacterObserver(characterObserver: CharacterObserver): void;
+
     /**
      * Returns a list of all the characters in the tracker.
      * @returns List of all the characters.
@@ -83,9 +86,26 @@ export enum CharacterType {
     enemy = "ENEMY"
 }
 
+export interface Gui {
+    update(): void;
+    nextTurn(): void;
+    add(): void;
+    remove(): void;
+    clear(): void;
+}
+
+export interface CharacterEntry {
+    get entryDiv(): HTMLDivElement;
+}
+
 export interface TrackerObserver {
     endOfTurn(next: Character): void;
     characterListChanged(): void;
-    characterChanged(character: Character): void;
     clear(): void;
+}
+
+export interface CharacterObserver {
+    nameChanged(name: string): void;
+    initiativeChanged(initiative: number): void;
+    characterInTurnChanged(inturn: Character): void;
 }
