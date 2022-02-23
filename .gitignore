@@ -6342,3 +6342,6 @@ node_modules/v8-compile-cache-lib/package.json
 node_modules/yn/package.json
 node_modules/yn/package.json
 dist/pathtracker/standard/TrackerImpl.js
+dist/tests/systematic.test.js
+dist/tests/TrackerImpl.test.js
+dist/pathtracker/doubles/NullDoubles.js
