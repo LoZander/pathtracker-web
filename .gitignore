@@ -6288,3 +6288,5 @@ node_modules/yargs-parser/build/lib/yargs-parser-types.js
 node_modules/yargs-parser/build/lib/yargs-parser.js
 dist/index.js
 dist/pathtracker/standard/TrackerImpl.js
+dist/gui/CharacterEntryImpl.js
+dist/gui/GuiImpl.js
