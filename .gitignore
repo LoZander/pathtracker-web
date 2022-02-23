@@ -6290,3 +6290,5 @@ dist/index.js
 dist/pathtracker/standard/TrackerImpl.js
 dist/gui/CharacterEntryImpl.js
 dist/gui/GuiImpl.js
+dist/pathtracker/gui/GuiImpl.js
+dist/pathtracker/gui/CharacterEntryImpl.js
