@@ -1,9 +1,13 @@
-import { CharacterType, Tracker } from "../src/pathtracker/framework/interfaces";
-import { TrackerImpl } from "../src/pathtracker/standard/TrackerImpl";
+import { Character, CharacterType, Tracker, TrackerObserver } from "../pathtracker/framework/interfaces";
+import { TrackerImpl } from "../pathtracker/standard/TrackerImpl";
+import { NullObserver} from "../pathtracker/doubles/NullDoubles"
 
 describe('TDD of TrackerImpl', () => {
     let tracker: Tracker;
-    beforeEach(() => tracker = new TrackerImpl());
+    beforeEach(() => {
+        tracker = new TrackerImpl()
+        tracker.addTrackerObserver(new NullObserver());
+    });
 
     describe('TDD of adding characters', () => {
         test('Adding a player character should add a character with the right type', () => {

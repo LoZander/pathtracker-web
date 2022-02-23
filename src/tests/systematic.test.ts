@@ -1,10 +1,13 @@
-import {Tracker,CharacterType} from '../src/pathtracker/framework/interfaces'
-import {TrackerImpl} from '../src/pathtracker/standard/TrackerImpl'
+import {Tracker,CharacterType} from '../pathtracker/framework/interfaces'
+import {TrackerImpl} from '../pathtracker/standard/TrackerImpl'
+import { NullObserver } from '../pathtracker/doubles/NullDoubles'
 
 describe('Systematic testing of nextTurn and round count updating', () => {
     let tracker: Tracker;
     beforeEach(() => {
         tracker = new TrackerImpl();
+        tracker.addTrackerObserver(new NullObserver());
+        
         tracker.addCharacter('Test1', 20, CharacterType.player);
         tracker.addCharacter('Test2', 16, CharacterType.enemy);
         tracker.addCharacter('Test5', 4 , CharacterType.player);
