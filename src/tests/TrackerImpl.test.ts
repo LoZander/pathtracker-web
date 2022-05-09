@@ -189,6 +189,18 @@ describe('TDD of TrackerImpl', () => {
             tracker.remove('Test2');
             expect(tracker.characterInTurn.name).toBe('Test3');
         });
+
+        test('Removing the character in turn, actually removes it', () => {
+            tracker.addCharacter('Test1', 20, CharacterType.ENEMY);
+            tracker.addCharacter('Test2', 15, CharacterType.PLAYER);
+            tracker.addCharacter('Test3', 10, CharacterType.PLAYER);
+
+            tracker.nextTurn();
+            tracker.nextTurn();
+            tracker.remove('Test2');
+            let character = tracker.getCharacter('Test2');
+            expect(character).toBeUndefined();
+        });
     });
 
     describe('TDD of getting characters', () => {
@@ -242,6 +254,19 @@ describe('TDD of TrackerImpl', () => {
             tracker.remove('Test');
 
             expect(observer.characterListChangedCalled).toBe(2);
+        });
+
+        test('Removing the character in turn, should call upon characterListcahnged', () => {
+            tracker.addCharacter('Test1', 30, CharacterType.PLAYER);
+            tracker.addCharacter('Test2', 24, CharacterType.PLAYER);
+            tracker.addCharacter('Test3', 23, CharacterType.PLAYER);
+            tracker.addCharacter('Test4', 19, CharacterType.PLAYER);
+            tracker.nextTurn();
+            tracker.nextTurn();
+
+            tracker.remove('Test2');
+
+            expect(observer.characterListChangedCalled).toBe(1);
         });
 
         test('Attempting to remove a character not on the tracker will not call upon characterListChanged', () => {

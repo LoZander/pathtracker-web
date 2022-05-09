@@ -85,6 +85,7 @@ export class TrackerImpl implements Tracker {
         const removee = this.getCharacter(name);
         if(removee === undefined) return null;
         const removeIndex = this.characters.indexOf(removee);
+        
         if(removee == this.characterInTurn) this.nextTurn();
         this.characters.splice(removeIndex,1);
 

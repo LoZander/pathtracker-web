@@ -58,8 +58,9 @@ export class GuiImpl implements Gui,TrackerObserver {
     }
     
     endOfTurn(next: Character): void {
-        throw new Error("Method not implemented.");
+        this.update();    
     }
+
     characterListChanged(): void {
         this.update();
     }
