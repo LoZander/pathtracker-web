@@ -48,6 +48,7 @@ export class TrackerImpl implements Tracker {
             const isNewRound: boolean = nextIndex === 0
             if(isNewRound) this._round++;
         }
+        this._trackerObserver.endOfTurn(this.characterInTurn);
     }
 
     private nextIndex(): number {
@@ -75,7 +76,7 @@ export class TrackerImpl implements Tracker {
             return 1;
         }).sort((a,b) => {
             if(a.type === b.type) return 0;
-            if(a.type === CharacterType.player) return -1;
+            if(a.type === CharacterType.PLAYER) return -1;
             return 1;
         }).sort((a,b) => b.initiative - a.initiative);
     }
@@ -86,6 +87,8 @@ export class TrackerImpl implements Tracker {
         const removeIndex = this.characters.indexOf(removee);
         if(removee == this.characterInTurn) this.nextTurn();
         this.characters.splice(removeIndex,1);
+
+        this._trackerObserver.characterListChanged();
         return removee;
     }
     getCharacter(name: string): Character | undefined {
@@ -95,6 +98,7 @@ export class TrackerImpl implements Tracker {
     clear(): void {
         this._characters = []
         this._round = 0;
+        this._trackerObserver.clear();
     }
 
     addTrackerObserver(trackerObserver: TrackerObserver): void {
