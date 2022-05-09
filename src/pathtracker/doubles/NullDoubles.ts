@@ -1,4 +1,4 @@
-import { Character, CharacterObserver, TrackerObserver } from "../framework/interfaces";
+import { Character, CharacterObserver, TrackerObserver } from "../framework/interfaces.js";
 
 export class NullObserver implements TrackerObserver,CharacterObserver {
     nameChanged(name: string): void {}

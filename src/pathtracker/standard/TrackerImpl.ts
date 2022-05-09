@@ -1,4 +1,4 @@
-import {Tracker,Character, CharacterType, TrackerObserver, CharacterObserver} from '../framework/interfaces';
+import {Tracker,Character, CharacterType, TrackerObserver, CharacterObserver} from '../framework/interfaces.js';
 export class TrackerImpl implements Tracker {
     _characters: Character[];
     _characterInTurn: Character | null;

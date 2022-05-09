@@ -1,6 +1,6 @@
-import { Character, CharacterType, Gui, Tracker, TrackerObserver } from "../framework/interfaces";
-import { TrackerImpl } from "../standard/TrackerImpl";
-import { CharacterEntryImpl } from "./CharacterEntryImpl";
+import { Character, CharacterType, Gui, Tracker, TrackerObserver } from "../framework/interfaces.js";
+import { TrackerImpl } from "../standard/TrackerImpl.js";
+import { CharacterEntryImpl } from "./CharacterEntryImpl.js";
 
 export class GuiImpl implements Gui,TrackerObserver {
     _tracker: Tracker;

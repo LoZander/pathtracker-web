@@ -3,5 +3,6 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   verbose: true,
-  maxWorkers: 1
+  maxWorkers: 1,
+  resolver: 'jest-ts-webcompat-resolver'
 };
