@@ -229,7 +229,7 @@ describe('TDD of TrackerImpl', () => {
         });
     });
 
-    describe('Testing observer pattern', () => {
+    describe('TDD of observer pattern', () => {
         let observer: ObserverSpy;
         beforeEach(() => {
             tracker = new TrackerImpl();
