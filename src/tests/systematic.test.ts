@@ -8,11 +8,11 @@ describe('Systematic testing of nextTurn and round count updating', () => {
         tracker = new TrackerImpl();
         tracker.addTrackerObserver(new NullObserver());
         
-        tracker.addCharacter('Test1', 20, CharacterType.player);
-        tracker.addCharacter('Test2', 16, CharacterType.enemy);
-        tracker.addCharacter('Test5', 4 , CharacterType.player);
-        tracker.addCharacter('Test4', 10, CharacterType.player);
-        tracker.addCharacter('Test3', 11, CharacterType.enemy);
+        tracker.addCharacter('Test1', 20, CharacterType.PLAYER);
+        tracker.addCharacter('Test2', 16, CharacterType.ENEMY);
+        tracker.addCharacter('Test5', 4 , CharacterType.PLAYER);
+        tracker.addCharacter('Test4', 10, CharacterType.PLAYER);
+        tracker.addCharacter('Test3', 11, CharacterType.ENEMY);
     });
 
     test('ECs [a2],[b1],[c2]: Should be character 4 after 3 when turn ends and round count shouldn\'t change', () => {

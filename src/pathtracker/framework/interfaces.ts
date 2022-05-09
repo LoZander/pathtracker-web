@@ -82,8 +82,8 @@ export interface Character {
  * @constant enemy "ENEMY"
  */
 export enum CharacterType {
-    player = "PLAYER",
-    enemy = "ENEMY"
+    PLAYER = "PLAYER",
+    ENEMY = "ENEMY"
 }
 
 export interface Gui {
