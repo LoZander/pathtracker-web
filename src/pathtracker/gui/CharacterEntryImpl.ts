@@ -1,4 +1,4 @@
-import { Character, CharacterEntry, CharacterObserver, Tracker } from "../framework/interfaces";
+import { Character, CharacterEntry, CharacterObserver, CharacterType, Tracker } from "../framework/interfaces.js";
 
 export class CharacterEntryImpl implements CharacterEntry,CharacterObserver {
     _entryDiv: HTMLDivElement;
@@ -20,6 +20,14 @@ export class CharacterEntryImpl implements CharacterEntry,CharacterObserver {
         this.entryDiv.classList.add("character");
         initDiv.classList.add("init");
         nameDiv.classList.add("name");
+        if(character.type == CharacterType.ENEMY) this.entryDiv.classList.add("enemy");
+
+        let removeButton = document.createElement('button');
+        removeButton.addEventListener('click', () => {
+            tracker.remove(character.name);
+        });
+
+        this.entryDiv.appendChild(removeButton);
         
         this.setInTurn(tracker.characterInTurn);
     }

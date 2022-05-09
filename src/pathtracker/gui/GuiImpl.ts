@@ -27,7 +27,8 @@ export class GuiImpl implements Gui,TrackerObserver {
     add(): void {
         let name = this.getNameInput()
         let initiative = this.getInitiativeInput();
-        this._tracker.addCharacter(name, initiative, CharacterType.player);
+        let type = this.getTypeInput();
+        this._tracker.addCharacter(name, initiative, type);
 
         this.update();
     }
@@ -45,6 +46,12 @@ export class GuiImpl implements Gui,TrackerObserver {
     getInitiativeInput(): number {
         return parseInt(this.getInputValue("initInput"));
     }
+
+    getTypeInput(): CharacterType {
+        const typeString: string = this.getInputValue('typeInput');
+        const type: CharacterType = this.characterTypeFromString(typeString);
+        return type;
+    }
     
     getInputValue(id: string) {
         return (<HTMLInputElement> document.getElementById(id)).value;
@@ -55,6 +62,14 @@ export class GuiImpl implements Gui,TrackerObserver {
     }
     characterListChanged(): void {
         this.update();
+    }
+
+    characterTypeFromString(type: string): CharacterType {
+        switch(type) {
+            case CharacterType.PLAYER: return CharacterType.PLAYER;
+            case CharacterType.ENEMY: return CharacterType.ENEMY;
+            default: throw new Error(`${type} is not a valid charactertype.`);
+        }
     }
 
 }
