@@ -4,12 +4,13 @@ import { TrackerImpl } from './pathtracker/standard/TrackerImpl.js';
 
 const tracker: Tracker = new TrackerImpl();
 const gui = new GuiImpl(tracker);
+tracker.addTrackerObserver(gui);
 
-tracker.addCharacter("Test1", 30, CharacterType.player);
-tracker.addCharacter("Test2", 10, CharacterType.player);
-tracker.addCharacter("Test3", 2, CharacterType.enemy);
-tracker.addCharacter("Test4", 20, CharacterType.enemy);
-tracker.addCharacter("Test5", 23, CharacterType.player);
+tracker.addCharacter("Test1", 30, CharacterType.PLAYER);
+tracker.addCharacter("Test2", 10, CharacterType.PLAYER);
+tracker.addCharacter("Test3", 2, CharacterType.ENEMY);
+tracker.addCharacter("Test4", 20, CharacterType.ENEMY);
+tracker.addCharacter("Test5", 23, CharacterType.PLAYER);
 
 function add() {
     gui.add();
