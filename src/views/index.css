@@ -129,6 +129,10 @@
     border-color: rgb(155, 65, 65)
 }
 
+.removeButton {
+    float: right;
+}
+
 #characters {
     display: flex;
     flex-flow: column nowrap;

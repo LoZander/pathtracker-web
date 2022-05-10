@@ -100,7 +100,8 @@ export interface CharacterEntry {
 
 export interface TrackerObserver {
     endOfTurn(next: Character): void;
-    characterListChanged(): void;
+    characterAdded(character: Character): void;
+    characterRemoved(character: Character): void;
     clear(): void;
 }
 

@@ -5,6 +5,7 @@ export class NullObserver implements TrackerObserver,CharacterObserver {
     initiativeChanged(initiative: number): void {}
     characterInTurnChanged(inturn: Character): void {}
     endOfTurn(next: Character): void {}
-    characterListChanged(): void {}
+    characterAdded(character: Character): void {}
+    characterRemoved(character: Character): void {}
     clear(): void {}
 }

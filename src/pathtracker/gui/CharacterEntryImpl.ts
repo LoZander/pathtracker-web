@@ -27,6 +27,8 @@ export class CharacterEntryImpl implements CharacterEntry,CharacterObserver {
             tracker.remove(character.name);
         });
 
+        removeButton.classList.add('removeButton');
+
         this.entryDiv.appendChild(removeButton);
         
         this.setInTurn(tracker.characterInTurn);

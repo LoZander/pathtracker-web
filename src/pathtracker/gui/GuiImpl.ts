@@ -11,7 +11,7 @@ export class GuiImpl implements Gui,TrackerObserver {
         tracker.addTrackerObserver(this);
         this._charactersDiv = <HTMLDivElement> document.getElementById("characters");
     }
-
+    
     update(): void {
         this._charactersDiv.innerHTML = "";
         this._tracker.characters.forEach(e => {
@@ -20,7 +20,7 @@ export class GuiImpl implements Gui,TrackerObserver {
             this._charactersDiv.append(entry.entryDiv);
         });
     }
-
+    
     nextTurn(): void {
         this._tracker.nextTurn();
     }
@@ -29,16 +29,15 @@ export class GuiImpl implements Gui,TrackerObserver {
         let initiative = this.getInitiativeInput();
         let type = this.getTypeInput();
         this._tracker.addCharacter(name, initiative, type);
-
-        this.update();
     }
+    
     remove(): void {
         throw new Error("Method not implemented.");
     }
     clear(): void {
         throw new Error("Method not implemented.");
     }
-
+    
     getNameInput(): string {
         return this.getInputValue("nameInput");
     }
@@ -46,7 +45,7 @@ export class GuiImpl implements Gui,TrackerObserver {
     getInitiativeInput(): number {
         return parseInt(this.getInputValue("initInput"));
     }
-
+    
     getTypeInput(): CharacterType {
         const typeString: string = this.getInputValue('typeInput');
         const type: CharacterType = this.characterTypeFromString(typeString);
@@ -57,14 +56,16 @@ export class GuiImpl implements Gui,TrackerObserver {
         return (<HTMLInputElement> document.getElementById(id)).value;
     }
     
-    endOfTurn(next: Character): void {
-        this.update();    
-    }
-
-    characterListChanged(): void {
+    endOfTurn(next: Character): void {}
+    
+    characterAdded(character: Character): void {
         this.update();
     }
 
+    characterRemoved(character: Character): void {
+        this.update();
+    }
+    
     characterTypeFromString(type: string): CharacterType {
         switch(type) {
             case CharacterType.PLAYER: return CharacterType.PLAYER;

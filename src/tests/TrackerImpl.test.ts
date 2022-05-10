@@ -249,14 +249,14 @@ describe('TDD of TrackerImpl', () => {
             tracker.addTrackerObserver(observer);
         });
         
-        test('Removing a charater should call upon characterListChanged', () => {
+        test('Removing a character should call upon characterRemoved', () => {
             tracker.addCharacter('Test', 20, CharacterType.PLAYER);
             tracker.remove('Test');
 
-            expect(observer.characterListChangedCalled).toBe(2);
+            expect(observer.characterRemovedCalled).toBe(1);
         });
 
-        test('Removing the character in turn, should call upon characterListcahnged', () => {
+        test('Removing the character in turn, should call upon characterRemoved', () => {
             tracker.addCharacter('Test1', 30, CharacterType.PLAYER);
             tracker.addCharacter('Test2', 24, CharacterType.PLAYER);
             tracker.addCharacter('Test3', 23, CharacterType.PLAYER);
@@ -266,20 +266,20 @@ describe('TDD of TrackerImpl', () => {
 
             tracker.remove('Test2');
 
-            expect(observer.characterListChangedCalled).toBe(1);
+            expect(observer.characterRemovedCalled).toBe(1);
         });
 
-        test('Attempting to remove a character not on the tracker will not call upon characterListChanged', () => {
+        test('Attempting to remove a character not on the tracker will not call upon characterRemoved', () => {
             tracker.remove('Something');
-            expect(observer.characterListChangedCalled).toBe(0);
+            expect(observer.characterRemovedCalled).toBe(0);
         });
 
-        test('Adding a character will call upon characterListChanged', () => {
+        test('Adding a character will call upon characterAdded', () => {
             tracker.addCharacter('Test', 10, CharacterType.ENEMY);
-            expect(observer.characterListChangedCalled).toBe(1);
+            expect(observer.characterAddedCalled).toBe(1);
         });
 
-        test('Clearing the tracker will call upon characterListChaned', () => {
+        test('Clearing the tracker will call upon clear', () => {
             tracker.addCharacter('Test', 10, CharacterType.ENEMY);
             tracker.clear();
             expect(observer.clearCalled).toBe(1);
@@ -301,26 +301,33 @@ describe('TDD of TrackerImpl', () => {
 
 class ObserverSpy implements TrackerObserver {
     private _endOfTurnCalled: number;
-    private _characterListChangedCalled: number;
+    private _characterAddedCalled: number;
+    private _characterRemovedCalled: number;
     private _clearCalled: number;
 
     constructor() {
         this._endOfTurnCalled = 0;
-        this._characterListChangedCalled = 0;
+        this._characterAddedCalled = 0;
+        this._characterRemovedCalled = 0;
         this._clearCalled = 0;
+    }
+    characterAdded(character: Character): void {
+        this._characterAddedCalled++;
+    }
+    characterRemoved(character: Character): void {
+        this._characterRemovedCalled++;
     }
 
     endOfTurn(next: Character): void {
         this._endOfTurnCalled++;
     }
-    characterListChanged(): void {
-        this._characterListChangedCalled++;
-    }
+
     clear(): void {
         this._clearCalled++;
     }
 
     get endOfTurnCalled(): number {return this._endOfTurnCalled}
-    get characterListChangedCalled(): number {return this._characterListChangedCalled}
+    get characterAddedCalled(): number {return this._characterAddedCalled}
+    get characterRemovedCalled(): number {return this._characterRemovedCalled}
     get clearCalled(): number {return this._clearCalled}
 }

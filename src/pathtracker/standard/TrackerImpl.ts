@@ -63,10 +63,11 @@ export class TrackerImpl implements Tracker {
         const isDuplicate = this.getCharacter(name) !== undefined;
         if(isDuplicate) throw new Error("Can't add a character that already exists");
 
-        this._characters.push({name: name, initiative: initiative, type: type});
+        const character = {name: name, initiative: initiative, type: type}
+        this._characters.push(character);
         this.sort();
 
-        this._trackerObserver.characterListChanged();
+        this._trackerObserver.characterAdded(character);
     }
 
     private sort(): void {
@@ -84,14 +85,16 @@ export class TrackerImpl implements Tracker {
     remove(name: string): Character | null {
         const removee = this.getCharacter(name);
         if(removee === undefined) return null;
-        const removeIndex = this.characters.indexOf(removee);
         
+        const removeIndex = this.characters.indexOf(removee);
         if(removee == this.characterInTurn) this.nextTurn();
         this.characters.splice(removeIndex,1);
 
-        this._trackerObserver.characterListChanged();
+        this._trackerObserver.characterRemoved(removee);
         return removee;
     }
+
+
     getCharacter(name: string): Character | undefined {
         return this.characters.find(e => e.name == name);;
     }
