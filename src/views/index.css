@@ -115,14 +115,17 @@
 
 .character > div.init {
     font-size: 2rem;
-    flex-basis: 2rem;
+    flex-basis: 2.75rem;
+    flex-shrink: 0;
+    flex-grow: 0;
     padding: 0.2rem;
+    text-align: center;
 }
 
 .character > div.name {
     font-size: 1.5rem;
     flex-basis: 4rem;
-    flex-grow: 10rem;
+    flex-grow: 10;
     text-align: left;
 }
 
@@ -132,10 +135,13 @@
 }
 
 .removeButton {
-    margin-left: auto; /* Aligns the botton at the very right of the character entry */
+    /* margin-left: auto; /* Aligns the botton at the very right of the character entry */
     margin-right: .75rem;
-    width: 1.6rem;
+    /* width: 1.6rem; */
     height: 1.6rem;
+    flex-basis: 1.6rem;
+    flex-grow: 0;
+    flex-shrink: 0;
     display: inline-block;
     text-align: center;
     line-height: 1rem;
