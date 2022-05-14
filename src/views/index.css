@@ -91,7 +91,6 @@
 }
 
 .inturn {
-    transform: scale();
     transition: 0.5s;
     font-size: 1.2rem;
     width: 18rem;
@@ -126,7 +125,7 @@
 .removeButton {
     margin-right: .75rem;
     height: 1.6rem;
-    flex-basis: 1.6rem;
+    flex-basis: 1.4rem;
     flex-grow: 0;
     flex-shrink: 0;
     display: inline-block;
@@ -134,20 +133,16 @@
     line-height: 1rem;
     background-color: rgb(228, 104, 104);
     border-style: solid;
-    border-color:brown;
+    border-color:rgb(184, 55, 55);
     border-radius: 20%;
     transform: scale();
     transition: 0.2s;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
 }
 
 .removeButton:hover {
-    margin-right: .65rem;
-    transform: scale();
-    width: 1.8rem;
-    height: 1.8rem;
+    transform: scale(1.1);
     transition: 0.2s;
-    font-size: 1.8rem;
 }
 
 #characters {
