@@ -1,0 +1,46 @@
+\documentclass[a4paper]{article}
+
+\usepackage{mathtools}
+
+% Partition box
+\newenvironment{partition}{%
+\begin{center}%
+\begin{tabular}{l|c|c}%
+Condition & Invalid ECs & Valid ECs \\%
+\hline\hline}%
+{\hline\end{tabular}\end{center}}
+
+% Equivalence class box
+\newenvironment{ec}{%
+\begin{center}%
+\begin{tabular}{p{0.2\linewidth}|p{0.5\linewidth}|c}%
+ECs covered & Test case & Expected output \\%
+\hline\hline}%
+{\hline\end{tabular}\end{center}}
+
+\begin{document}
+
+\begin{itemize}
+    \item Tracker size: empty, non-empty?
+    \item Position before and after: at the start, in the middle, at the end?
+    \item Round count: did round count update correctly?
+\end{itemize}
+
+\begin{partition}
+Tracker size    & $0$ [a1] & $>0$ [a2]                          \\
+Position        && $n \rightarrow n + 1$ [b1]                   \\
+                && $n_{last} \rightarrow 0$, round++ [b2]       \\
+                && $n_{none} \rightarrow 0$, round $=1$ [b3]    \\
+Round           && new turn, round++ [c1]                       \\
+                && same turn, round same [c2]                   \\
+                && first turn, round $=1$[c3]                   \\
+\end{partition}
+
+\begin{ec}
+[a2],[b1],[c2]  & Character 3 of 5 ends turn and 4 is in turn and round count is the same   & Change \\\hline
+[a2],[b2],[c1]  & Character 5 of 5 ends turn and character 1 is in turn and round++         & Change \\\hline
+[a2],[b3],[c3]  & No character of 5 and turn ends, character 1 is in turn and round $=1$    & Change \\\hline
+[a1]            & There are no characters, so nothing happens & No change \\
+\end{ec}
+
+\end{document}

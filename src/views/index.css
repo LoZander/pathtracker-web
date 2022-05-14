@@ -1,0 +1,151 @@
+@media screen and (max-width: 499px) {
+    .character {
+        font-size: 1em;
+    }
+
+    .stopper {
+        height: 14rem;
+    }
+
+    #controls {
+        position: fixed;
+        bottom: 1em;
+        left: 1rem;
+        right: 1rem;
+        display: grid;
+        grid-column: 1;
+        grid-row: auto;
+    }
+    #controls > input, #controls > button, #controls > select {
+        font-size: 1.5rem;
+        height: 2.5rem;
+        padding: auto;
+        box-sizing: border-box;
+        min-width: 14rem;
+    }
+}
+
+@media screen and (min-width: 500px) {
+    .character {
+        font-size: 1em;
+    }
+
+    .stopper {
+        height: 8rem;
+    }
+
+    #controls {
+        position: fixed;
+        bottom: 1em;
+        left: 50%;
+        transform: translateX(-50%);
+        display: grid;
+    }
+    #controls > button {
+        font-size: 1.5rem;
+        grid-column-start: 1;
+        grid-column-end: 4;
+    }
+    #controls > input {
+        font-size: 1.5rem;
+        max-width: 10rem;
+    }
+    #nameInput {
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 2;
+        grid-row-end: 2;
+    }
+    #initInput {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 2;
+        grid-row-end: 2;
+    }
+    #typeInput {
+        font-size: 1.5rem;
+        grid-column-start: 3;
+        grid-column-end: 4;
+        grid-row-start: 2;
+        grid-row-end: 2;
+        min-width: max-content;
+    }
+}
+
+#content {
+    text-align: center;
+}
+
+.character {
+    transform: scale();
+    transition: 0.5s;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 0.4rem;
+    background-color: lightgray;
+    border: 2px solid darkgray;
+    display: flex;
+    flex-direction: row;
+    width: 14rem;
+    align-self: center;
+    align-items: center;
+}
+
+.inturn {
+    transition: 0.5s;
+    font-size: 1.2rem;
+    width: 18rem;
+    height: 4rem;
+}
+
+.character > div {
+    align-self: center;
+}
+
+.character > div.init {
+    font-size: 2rem;
+    flex-basis: 2.75rem;
+    flex-shrink: 0;
+    flex-grow: 0;
+    padding: 0.2rem;
+    text-align: center;
+}
+
+.character > div.name {
+    font-size: 1.5rem;
+    flex-basis: 4rem;
+    flex-grow: 10;
+    text-align: left;
+}
+
+.enemy {
+    background-color: rgb(238, 116, 116);
+    border-color: rgb(155, 65, 65)
+}
+
+.removeButton {
+    margin-right: .75rem;
+    height: 1.6rem;
+    flex-basis: 1.4rem;
+    flex-grow: 0;
+    flex-shrink: 0;
+    display: inline-block;
+    text-align: center;
+    line-height: 1rem;
+    background-color: rgb(228, 104, 104);
+    border-style: solid;
+    border-color:rgb(184, 55, 55);
+    border-radius: 20%;
+    transform: scale();
+    transition: 0.2s;
+    font-size: 1.2rem;
+}
+
+.removeButton:hover {
+    transform: scale(1.1);
+    transition: 0.2s;
+}
+
+#characters {
+    display: flex;
+    flex-flow: column nowrap;
+}
