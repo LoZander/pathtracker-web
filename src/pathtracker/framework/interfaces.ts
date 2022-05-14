@@ -88,11 +88,9 @@ export enum CharacterType {
 
 export interface Gui {
     update(): void;
-    nextTurn(): void;
-    add(): void;
-    remove(): void;
-    clear(): void;
 }
+
+export interface Controller {}
 
 export interface CharacterEntry {
     get entryDiv(): HTMLDivElement;
