@@ -17,8 +17,16 @@ export class GuiImpl implements Gui,TrackerObserver {
         this._tracker.characters.forEach(e => {
             let entry = new CharacterEntryImpl(e,this._tracker);
             this._tracker.addCharacterObserver(entry);
-            this._charactersDiv.append(entry.entryDiv);
+            this._charactersDiv.appendChild(entry.entryDiv);
         });
+
+        this._charactersDiv.appendChild(this.createCharacterStopper());
+    }
+
+    private createCharacterStopper(): HTMLDivElement {
+        const stopper = document.createElement('div');
+        stopper.classList.add('stopper');
+        return stopper;
     }
     
     nextTurn(): void {

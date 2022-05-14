@@ -61,6 +61,7 @@ export class CharacterEntryImpl implements CharacterEntry,CharacterObserver {
     setInTurn(inturn: Character) {
         if(this._character === inturn) {
             this.entryDiv.classList.add('inturn');
+            this.entryDiv.scrollIntoView();
         } else {
             this.entryDiv.classList.remove('inturn');
         }

@@ -1,6 +1,10 @@
-@media screen and (max-width: 500px) {
-    * {
+@media screen and (max-width: 499px) {
+    .character {
         font-size: 1em;
+    }
+
+    .stopper {
+        height: 14rem;
     }
 
     #controls {
@@ -12,9 +16,9 @@
         grid-column: 1;
         grid-row: auto;
     }
-    #controls > input,button,select {
+    #controls > input, #controls > button, #controls > select {
         font-size: 1.5rem;
-        height: 3rem;
+        height: 2.5rem;
         padding: auto;
         box-sizing: border-box;
         min-width: 14rem;
@@ -24,6 +28,10 @@
 @media screen and (min-width: 500px) {
     .character {
         font-size: 1em;
+    }
+
+    .stopper {
+        height: 8rem;
     }
 
     #controls {
@@ -60,26 +68,7 @@
         grid-column-end: 4;
         grid-row-start: 2;
         grid-row-end: 2;
-    }
-    
-}
-
-@media screen and (min-width: 800px) {
-    .character {
-        font-size: 1em;
-    }
-
-    #controls {
-        position: fixed;
-        bottom: 1em;
-        left: 50%;
-        transform: translateX(-50%);
-        display: grid;
-        grid-column: 1;
-        grid-row: auto;
-    }
-    #controls > input,button {
-        font-size: 1.5rem;
+        min-width: max-content;
     }
 }
 
@@ -146,7 +135,7 @@
     background-color: rgb(228, 104, 104);
     border-style: solid;
     border-color:brown;
-    border-radius: .3rem;
+    border-radius: 20%;
     transform: scale();
     transition: 0.2s;
     font-size: 1.5rem;
