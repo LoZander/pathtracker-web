@@ -1,16 +1,32 @@
-import {Tracker,Character, CharacterType, TrackerObserver, CharacterObserver} from '../framework/interfaces.js';
+import path from 'path';
+import {Tracker,Character, CharacterType, TrackerObserver, CharacterObserver, FileManager} from '../framework/interfaces.js';
+import { AsyncJSONFileManager } from './AsyncJSONFileManager.js';
+import { SyncJSONFileManager } from './SyncJSONFileManager.js';
 export class TrackerImpl implements Tracker {
     _characters: Character[];
     _characterInTurn: Character | null;
     _round: number;
     _trackerObserver: TrackerObserver;
     _characterObservers: CharacterObserver[];
+    _fileManager: FileManager;
     
-    constructor() {
+    constructor(fileManager: FileManager) {
         this._characters = [];
         this._characterInTurn = null;
         this._round = 0;
         this._characterObservers = [];
+        this._fileManager = fileManager;
+    }
+
+    save(filename: string): void {
+        this._fileManager.write(path.join(__dirname, '..', 'saves', filename) + '.json', this);
+    }
+    
+    load(filename: string): void {
+        const tracker = this._fileManager.read(path.join(__dirname, '..', 'saves', filename) + '.json');
+        this._characters = tracker._characters;
+        this._characterInTurn = tracker._characterInTurn;
+        this._round = tracker._round;
     }
 
     get characters(): Character[] {

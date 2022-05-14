@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Test1",
+    "initiative": 20,
+    "type": "PLAYER"
+  },
+  {
+    "name": "Test2",
+    "initiative": 15,
+    "type": "PLAYER"
+  },
+  {
+    "name": "Test3",
+    "initiative": 10,
+    "type": "ENEMY"
+  }
+]

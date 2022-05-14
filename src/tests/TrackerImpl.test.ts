@@ -1,11 +1,16 @@
-import { Character, CharacterType, Tracker, TrackerObserver } from "../pathtracker/framework/interfaces";
+import { Character, CharacterType, FileManager, Tracker, TrackerObserver } from "../pathtracker/framework/interfaces";
 import { TrackerImpl } from "../pathtracker/standard/TrackerImpl";
-import { NullObserver} from "../pathtracker/doubles/NullDoubles"
+import { NullObserver} from "../pathtracker/doubles/NullDoubles";
+import { AsyncJSONFileManager } from "../pathtracker/standard/AsyncJSONFileManager";
+import path from "path";
+import { SyncJSONFileManager } from "../pathtracker/standard/SyncJSONFileManager";
 
 describe('TDD of TrackerImpl', () => {
     let tracker: Tracker;
+    let mockFileManager: FileManager;
     beforeEach(() => {
-        tracker = new TrackerImpl()
+        mockFileManager = new MockFileManager();
+        tracker = new TrackerImpl(mockFileManager)
         tracker.addTrackerObserver(new NullObserver());
     });
 
@@ -244,7 +249,7 @@ describe('TDD of TrackerImpl', () => {
     describe('TDD of observer pattern', () => {
         let observer: ObserverSpy;
         beforeEach(() => {
-            tracker = new TrackerImpl();
+            tracker = new TrackerImpl(new SyncJSONFileManager());
             observer = new ObserverSpy();
             tracker.addTrackerObserver(observer);
         });
@@ -297,6 +302,65 @@ describe('TDD of TrackerImpl', () => {
             expect(observer.endOfTurnCalled).toBe(0);
         });
     });
+
+    describe('Testing save/load functionality', () => {
+        test('When saving the tracker, 20 Test1 Player should be recovered upon loading', async () => {
+            tracker.addCharacter('Test1', 20, CharacterType.PLAYER);
+            tracker.save('slTest1');
+            tracker = new TrackerImpl(mockFileManager);
+            tracker.addTrackerObserver(new NullObserver());
+
+            tracker.load('slTest1');
+            console.log(tracker.characters);
+            const test1 = tracker.getCharacter('Test1');
+            expect(test1).toBeDefined();
+        });
+
+        test('When saving the tracker, 10 Test2 Enemy should be recovered upon loading', async () => {
+            tracker.addCharacter('Test2', 10, CharacterType.ENEMY);
+            tracker.save('slTest2');
+            tracker = new TrackerImpl(mockFileManager);
+            tracker.addTrackerObserver(new NullObserver());
+
+            tracker.load('slTest2');
+            let test2 = tracker.getCharacter('Test2');
+            expect(test2).toBeDefined();
+        });
+
+        test("When saving the tracker, the character in turn is also saved", () => {
+            tracker.addCharacter('Test1', 30, CharacterType.PLAYER);
+            tracker.addCharacter('Test2', 20, CharacterType.PLAYER);
+            tracker.addCharacter('Test3', 16, CharacterType.PLAYER);
+            tracker.addCharacter('Test4', 12, CharacterType.PLAYER);
+
+            tracker.nextTurn();
+            tracker.nextTurn();
+            tracker.nextTurn();
+
+            tracker.save('slTest3');
+
+            tracker = new TrackerImpl(mockFileManager);
+            tracker.addTrackerObserver(new NullObserver());
+            tracker.load('slTest3');
+            expect(tracker.characterInTurn.name).toBe('Test3');
+        });
+
+        test('When saving the tracker, the round count is also saved', () => {
+            tracker.addCharacter('Test1', 30, CharacterType.PLAYER);
+            tracker.addCharacter('Test2', 20, CharacterType.PLAYER);
+
+            tracker.nextTurn();
+            tracker.nextTurn();
+            tracker.nextTurn();
+
+            tracker.save('slTest4');
+            
+            tracker = new TrackerImpl(mockFileManager);
+            tracker.addTrackerObserver(new NullObserver());
+            tracker.load('slTest4');
+            expect(tracker.round).toBe(2);
+        });
+    });
 });
 
 class ObserverSpy implements TrackerObserver {
@@ -330,4 +394,20 @@ class ObserverSpy implements TrackerObserver {
     get characterAddedCalled(): number {return this._characterAddedCalled}
     get characterRemovedCalled(): number {return this._characterRemovedCalled}
     get clearCalled(): number {return this._clearCalled}
+}
+
+class MockFileManager implements FileManager {
+    private _files: Map<string,any>;
+
+    constructor() {
+        this._files = new Map();
+    }
+
+    read(dir: string) {
+        return this._files.get(dir);
+    }
+    write(dir: string, value: any): void {
+        this._files.set(dir, value);
+    }
+
 }

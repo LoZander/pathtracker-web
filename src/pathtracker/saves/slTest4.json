@@ -1,0 +1,23 @@
+{
+  "_characters": [
+    {
+      "name": "Test1",
+      "initiative": 30,
+      "type": "PLAYER"
+    },
+    {
+      "name": "Test2",
+      "initiative": 20,
+      "type": "PLAYER"
+    }
+  ],
+  "_characterInTurn": {
+    "name": "Test1",
+    "initiative": 30,
+    "type": "PLAYER"
+  },
+  "_round": 2,
+  "_characterObservers": [],
+  "_fileManager": {},
+  "_trackerObserver": {}
+}

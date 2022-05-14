@@ -1,4 +1,5 @@
 import { CharacterType, Controller, Tracker } from "../framework/interfaces.js";
+import { characterTypeFromString } from "./Util.js";
 export class ControllerImpl implements Controller {
     private _tracker: Tracker;
     
@@ -44,19 +45,11 @@ export class ControllerImpl implements Controller {
     
     private getTypeInput(): CharacterType {
         const typeString: string = this.getInputValue('typeInput');
-        const type: CharacterType = this.characterTypeFromString(typeString);
+        const type: CharacterType = characterTypeFromString(typeString);
         return type;
     }
     
     private getInputValue(id: string) {
         return (<HTMLInputElement> document.getElementById(id)).value;
-    }
-    
-    private characterTypeFromString(type: string): CharacterType {
-        switch(type) {
-            case CharacterType.PLAYER: return CharacterType.PLAYER;
-            case CharacterType.ENEMY: return CharacterType.ENEMY;
-            default: throw new Error(`${type} is not a valid charactertype.`);
-        }
     }
 }

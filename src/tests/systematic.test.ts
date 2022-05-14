@@ -1,11 +1,12 @@
 import {Tracker,CharacterType} from '../pathtracker/framework/interfaces'
 import {TrackerImpl} from '../pathtracker/standard/TrackerImpl'
 import { NullObserver } from '../pathtracker/doubles/NullDoubles'
+import { SyncJSONFileManager } from '../pathtracker/standard/SyncJSONFileManager';
 
 describe('Systematic testing of nextTurn and round count updating', () => {
     let tracker: Tracker;
     beforeEach(() => {
-        tracker = new TrackerImpl();
+        tracker = new TrackerImpl(new SyncJSONFileManager());
         tracker.addTrackerObserver(new NullObserver());
         
         tracker.addCharacter('Test1', 20, CharacterType.PLAYER);
@@ -53,7 +54,7 @@ describe('Systematic testing of nextTurn and round count updating', () => {
     });
 
     test('ECs [a1]: Nothing should happen when turn ends with no characters', () => {
-        tracker = new TrackerImpl();
+        tracker = new TrackerImpl(new SyncJSONFileManager());
         tracker.nextTurn();
         expect(tracker.characterInTurn).toBeNull;
         expect(tracker.round).toBe(0);

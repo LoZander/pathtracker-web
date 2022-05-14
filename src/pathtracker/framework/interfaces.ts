@@ -9,12 +9,7 @@ export interface Tracker {
      */
     nextTurn(): void;
 
-    /**
-     * Returns the character whose turn it currently is.
-     * @returns The character in turn.
-     */
-    get characterInTurn(): Character | null;
-
+    
     /**
      * Adds a new character to the tracker.
      * @param name The name of the new character.
@@ -22,46 +17,63 @@ export interface Tracker {
      * @param type The type of the new character.
      */
     addCharacter(name: string, initiative: number, type: CharacterType): void;
-
+    
     /**
      * Removes a character from the tracker.
      * @param name The character to be removed from the tracker.
      * @returns The character that was removed.
      */
     remove(name: string): Character | null;
-
+    
     /**
      * Returns a specific character form the tracker.
      * @param name The name of the character to be fetched.
      * @returns The character fetched.
      */
     getCharacter(name: string): Character | undefined;
-
+    
     /**
      * Removes all characters and resets round count.
      */
     clear(): void;
 
+    /**
+     * Saves the current tracker, including all characters state and who is in turn.
+     * @param {string} filename Name of the savefile.
+     */
+    save(filename: string): void;
+
+    /**
+     * Loads a saved tracker state
+     */
+    load(filename: string): void;
+    
     addTrackerObserver(trackerObserver: TrackerObserver): void;
     addCharacterObserver(characterObserver: CharacterObserver): void;
-
+    
     /**
      * Returns a list of all the characters in the tracker.
      * @returns List of all the characters.
      */
     get characters(): Character[];
-
+    
     /**
      * Returns the round count of the tracker.
      * @returns Round count.
      */
     get round(): number;
-
+    
     /**
      * Returns the size of the tracker.
      * @returns Tracker size.
      */
     get size(): number;
+
+    /**
+     * Returns the character whose turn it currently is.
+     * @returns The character in turn.
+     */
+    get characterInTurn(): Character | null;
 }
 
 /**
@@ -107,4 +119,9 @@ export interface CharacterObserver {
     nameChanged(name: string): void;
     initiativeChanged(initiative: number): void;
     characterInTurnChanged(inturn: Character): void;
+}
+
+export interface FileManager {
+    read(dir: string): any;
+    write(dir: string, value: any): void;
 }
