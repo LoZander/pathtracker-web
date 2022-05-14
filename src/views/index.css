@@ -86,6 +86,7 @@
 #content {
     text-align: center;
 }
+
 .character {
     transform: scale();
     transition: 0.5s;
@@ -97,6 +98,7 @@
     flex-direction: row;
     width: 14rem;
     align-self: center;
+    align-items: center;
 }
 
 .inturn {
@@ -130,7 +132,29 @@
 }
 
 .removeButton {
-    float: right;
+    margin-left: auto; /* Aligns the botton at the very right of the character entry */
+    margin-right: .75rem;
+    width: 1.6rem;
+    height: 1.6rem;
+    display: inline-block;
+    text-align: center;
+    line-height: 1rem;
+    background-color: rgb(228, 104, 104);
+    border-style: solid;
+    border-color:brown;
+    border-radius: .3rem;
+    transform: scale();
+    transition: 0.2s;
+    font-size: 1.5rem;
+}
+
+.removeButton:hover {
+    margin-right: .65rem;
+    transform: scale();
+    width: 1.8rem;
+    height: 1.8rem;
+    transition: 0.2s;
+    font-size: 1.8rem;
 }
 
 #characters {

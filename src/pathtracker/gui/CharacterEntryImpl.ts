@@ -28,7 +28,10 @@ export class CharacterEntryImpl implements CharacterEntry,CharacterObserver {
         });
 
         removeButton.classList.add('removeButton');
-
+        
+        let removeButtonText = document.createTextNode('\xD7');
+        removeButton.appendChild(removeButtonText);
+        
         this.entryDiv.appendChild(removeButton);
         
         this.setInTurn(tracker.characterInTurn);
@@ -49,9 +52,11 @@ export class CharacterEntryImpl implements CharacterEntry,CharacterObserver {
     nameChanged(name: string): void {
         throw new Error("Method not implemented.");
     }
+
     initiativeChanged(initiative: number): void {
         throw new Error("Method not implemented.");
     }
+    
     characterInTurnChanged(inturn: Character): void {
         this.setInTurn(inturn);
     }
