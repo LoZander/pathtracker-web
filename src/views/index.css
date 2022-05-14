@@ -135,9 +135,7 @@
 }
 
 .removeButton {
-    /* margin-left: auto; /* Aligns the botton at the very right of the character entry */
     margin-right: .75rem;
-    /* width: 1.6rem; */
     height: 1.6rem;
     flex-basis: 1.6rem;
     flex-grow: 0;
