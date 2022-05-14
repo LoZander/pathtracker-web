@@ -29,7 +29,7 @@ export class CharacterEntryImpl implements CharacterEntry,CharacterObserver {
 
         removeButton.classList.add('removeButton');
         
-        let removeButtonText = document.createTextNode('\xD7');
+        let removeButtonText = document.createTextNode('\xD7'); // Adds cross to remove button
         removeButton.appendChild(removeButtonText);
         
         this.entryDiv.appendChild(removeButton);
