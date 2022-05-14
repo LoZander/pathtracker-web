@@ -9,10 +9,11 @@ RUN apt install npm -y
 
 RUN npm install express -y
 RUN npm install express ejs -y
+RUN npm install serve-favicon -y
 
 WORKDIR /root/app
 
-COPY dist/ .
+COPY bin/ .
 
 CMD ["node", "express.js"]
 EXPOSE 3000
