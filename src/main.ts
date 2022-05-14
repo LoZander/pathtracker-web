@@ -1,5 +1,5 @@
 import { ControllerImpl } from './pathtracker/gui/ControllerImpl.js';
-import { CharacterType, Controller, Tracker } from './pathtracker/framework/interfaces.js';
+import { Controller, Tracker } from './pathtracker/framework/interfaces.js';
 import { GuiImpl } from './pathtracker/gui/GuiImpl.js';
 import { TrackerImpl } from './pathtracker/standard/TrackerImpl.js';
 
