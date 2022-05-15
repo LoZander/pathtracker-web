@@ -25,6 +25,8 @@ export class ControllerImpl implements Controller {
         } catch (err) {
             alert(err);
         }
+        this.clearInputValue('nameInput');
+        this.clearInputValue('initInput');
     }
 
     private getNameInput(): string {
@@ -43,5 +45,9 @@ export class ControllerImpl implements Controller {
     
     private getInputValue(id: string) {
         return (<HTMLInputElement> document.getElementById(id)).value;
+    }
+
+    private clearInputValue(id: string) {
+        (<HTMLInputElement> document.getElementById(id)).value = "";
     }
 }
