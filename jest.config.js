@@ -4,5 +4,4 @@ module.exports = {
   testEnvironment: 'node',
   verbose: true,
   maxWorkers: 1,
-  resolver: 'jest-ts-webcompat-resolver'
 };

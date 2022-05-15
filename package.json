@@ -5,7 +5,6 @@
   "main": "dist/electron.js",
   "devDependencies": {
     "@types/jest": "^27.5.0",
-    "@types/jsonfile": "^6.1.0",
     "@types/node": "^17.0.33",
     "copyfiles": "^2.4.1",
     "ejs": "^3.1.7",
@@ -14,8 +13,6 @@
     "express": "^4.18.1",
     "fs": "^0.0.1-security",
     "jest": "^27.5.1",
-    "jest-ts-webcompat-resolver": "^1.0.0",
-    "jsonfile": "^6.1.0",
     "nodemon": "^2.0.16",
     "serve-favicon": "^2.5.0",
     "ts-jest": "^27.1.4",
@@ -27,22 +24,21 @@
   },
   "scripts": {
     "test": "jest",
-    "compile": "webpack --config webpack.config.js",
+    "webpack": "webpack --config webpack.config.js",
     "copyfiles": "copyfiles -u 1 src/**/*.html src/**/*.css src/favicon.ico src/electron.js src/express.js dist/",
-    "build": "npm run compile && npm run copyfiles",
+    "compile": "npm run webpack && npm run copyfiles",
     "electron": "electron dist/electron.js",
     "node": "node dist/express.js",
     "nodemon": "nodemon dist/express.js",
-    "package": "electron-packager . pathtracker --overwrite --asar --platform=linux,win32 --arch=x64,ia32 --prune=true --out=release-builds --ignore=\"(src*|systematic-testing*|dist/express.js|Dockerfile|LICENSE|README.md|.gitignore|jest.config.js)\""
+    "package": "electron-packager . pathtracker --overwrite --asar --platform=linux,win32 --arch=x64,ia32 --prune=true --out=release-builds --ignore=\"(src*|systematic-testing*|dist/express.js|Dockerfile|LICENSE|README.md|.gitignore|jest.config.js)\"",
+    "build": "npm run compile && npm run package"
   },
   "dependencies": {
     "body-parser": "^1.20.0",
     "cookie-parser": "^1.4.6",
     "multer": "^1.4.4",
-    "path": "^0.12.7",
-    "serve-favicon": "^2.5.0"
+    "path": "^0.12.7"
   },
-
   "browser": {
     "fs": false,
     "path": false,

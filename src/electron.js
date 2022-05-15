@@ -3,8 +3,8 @@ const path = require('path');
 
 function createWindow() {
     let win = new BrowserWindow({
-        width: 1280,
-        height: 1024
+        width: 400,
+        height: 600,
     });
 
     win.loadFile(path.join(__dirname, 'views/index.html'));

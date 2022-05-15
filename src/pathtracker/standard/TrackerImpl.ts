@@ -1,12 +1,12 @@
 import path from 'path';
 import {Tracker,Character, CharacterType, TrackerObserver, CharacterObserver, FileManager} from '../framework/interfaces';
 export class TrackerImpl implements Tracker {
-    _characters: Character[];
-    _characterInTurn: Character | null;
-    _round: number;
-    _trackerObserver: TrackerObserver;
-    _characterObservers: CharacterObserver[];
-    _fileManager: FileManager;
+    private _characters: Character[];
+    private _characterInTurn: Character | null;
+    private _round: number;
+    private _trackerObserver: TrackerObserver;
+    private _characterObservers: CharacterObserver[];
+    private _fileManager: FileManager;
     
     constructor(fileManager: FileManager) {
         this._characters = [];
@@ -71,17 +71,24 @@ export class TrackerImpl implements Tracker {
     }
 
     addCharacter(name: string, initiative: number, type: CharacterType): void {
-        const isEmptyName = name === '';
-        if(isEmptyName) throw new Error("Can't add a character with no name");
-
-        const isDuplicate = this.getCharacter(name) !== undefined;
-        if(isDuplicate) throw new Error("Can't add a character that already exists");
+        this.checkCharacterIsValid(name, initiative, type);
 
         const character = {name: name, initiative: initiative, type: type}
         this._characters.push(character);
         this.sort();
 
         this._trackerObserver.characterAdded(character);
+    }
+
+    private checkCharacterIsValid(name: string, initiative: number, type: CharacterType): void {
+        const isEmptyName = name === '';
+        if(isEmptyName) throw new Error("Can't add a character with no name");
+        
+        const isInitiativeNotNumber = isNaN(initiative);
+        if(isInitiativeNotNumber) throw new Error("Can't add a character with non-number initiative");
+
+        const isDuplicate = this.getCharacter(name) !== undefined;
+        if(isDuplicate) throw new Error("Can't add a character that already exists");
     }
 
     private sort(): void {

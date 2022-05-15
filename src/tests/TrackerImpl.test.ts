@@ -68,6 +68,10 @@ describe('TDD of TrackerImpl', () => {
         test('Adding a character with an empty name should throw an exception', () => {
             expect(() => tracker.addCharacter('', 10, CharacterType.PLAYER)).toThrowError("Can't add a character with no name");
         });
+
+        test('Adding a character with a name that is not a number should throw and exception', () => {
+            expect(() => tracker.addCharacter('Test', NaN, CharacterType.PLAYER)).toThrowError("Can't add a character with non-number initiative");
+        });
     });
 
     describe('TDD of ending turns and rounds', () => {

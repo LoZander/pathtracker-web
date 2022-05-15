@@ -38,15 +38,15 @@ describe('Testing synchronous read/write', () => {
     })
 
     test('If we write "A" to a file "test", when we read "test" we should get "A"', () => {
-        manager.write(path.join(__dirname, 'rwTest1.json'), "A");
-        const result = manager.read(path.join(__dirname, 'rwTest1.json'));
+        manager.write(path.join(__dirname, 'test.files', 'rwTest1.json'), "A");
+        const result = manager.read(path.join(__dirname, 'test.files', 'rwTest1.json'));
         expect(result).toBe("A");
 
     });
 
     test('If we write character "20 Test Player", then when we read we should get that character', async () => {
-        manager.write(path.join(__dirname, 'rwTest2.json'), {"name": 'Test', "initiative": 20, "type": CharacterType.PLAYER});
-        const result = manager.read(path.join(__dirname, 'rwTest2.json'));
+        manager.write(path.join(__dirname, 'test.files', 'rwTest2.json'), {"name": 'Test', "initiative": 20, "type": CharacterType.PLAYER});
+        const result = manager.read(path.join(__dirname, 'test.files', 'rwTest2.json'));
         expect(result).toStrictEqual({name: 'Test', initiative: 20, type: CharacterType.PLAYER});
     })
 
@@ -56,8 +56,8 @@ describe('Testing synchronous read/write', () => {
             {name: 'Test2', initiative: 15, type: CharacterType.PLAYER},
             {name: 'Test3', initiative: 10, type: CharacterType.ENEMY}
         ]
-        manager.write(path.join(__dirname, 'rwTest3.json'), characters);
-        const result = manager.read(path.join(__dirname, 'rwTest3.json'))
+        manager.write(path.join(__dirname, 'test.files', 'rwTest3.json'), characters);
+        const result = manager.read(path.join(__dirname, 'test.files', 'rwTest3.json'))
         expect(result).toStrictEqual(characters);
     });
 })
