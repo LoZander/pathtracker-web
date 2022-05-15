@@ -1,0 +1,20 @@
+{
+  "characters": [
+    {
+      "name": "Alex",
+      "initiative": 20,
+      "type": "PLAYER"
+    },
+    {
+      "name": "Doggo",
+      "initiative": 10,
+      "type": "ENEMY"
+    }
+  ],
+  "characterInTurn": {
+    "name": "Alex",
+    "initiative": 20,
+    "type": "PLAYER"
+  },
+  "round": 59
+}

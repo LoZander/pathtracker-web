@@ -2,6 +2,7 @@ import path from 'path';
 import {Tracker,Character, CharacterType} from '../framework/TrackerInterfaces';
 import { TrackerObserver, CharacterObserver } from "../framework/ObserverInterfaces";
 import { FileManager } from "../framework/FileManager";
+import { app } from 'electron';
 export class TrackerImpl implements Tracker {
     private _characters: Character[];
     private _characterInTurn: Character | null;
@@ -19,14 +20,15 @@ export class TrackerImpl implements Tracker {
     }
 
     save(filename: string): void {
-        this._fileManager.write(path.join(__dirname, '..', 'saves', filename) + '.json', this);
+        this._fileManager.write(filename, {characters: this._characters, characterInTurn: this._characterInTurn, round: this._round});
     }
     
     load(filename: string): void {
-        const tracker = this._fileManager.read(path.join(__dirname, '..', 'saves', filename) + '.json');
-        this._characters = tracker._characters;
-        this._characterInTurn = tracker._characterInTurn;
-        this._round = tracker._round;
+        const tracker = this._fileManager.read(filename);
+        this._characters = tracker.characters;
+        this._characterInTurn = tracker.characterInTurn;
+        this._round = tracker.round;
+        this._trackerObserver.characterAdded(null);
     }
 
     get characters(): Character[] {

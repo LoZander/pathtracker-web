@@ -1,0 +1,11 @@
+{
+  "characters": [
+    {
+      "name": "Test",
+      "initiative": 20,
+      "type": "PLAYER"
+    }
+  ],
+  "characterInTurn": null,
+  "round": 0
+}

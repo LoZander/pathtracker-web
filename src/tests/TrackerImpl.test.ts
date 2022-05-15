@@ -4,6 +4,7 @@ import { TrackerObserver } from '../pathtracker/framework/ObserverInterfaces';
 import { TrackerImpl } from "../pathtracker/standard/TrackerImpl";
 import { NullObserver } from "../pathtracker/doubles/NullDoubles";
 import { SyncJSONFileManager } from "../pathtracker/standard/SyncJSONFileManager";
+import path from "path";
 
 describe('TDD of TrackerImpl', () => {
     let tracker: Tracker;
@@ -364,6 +365,19 @@ describe('TDD of TrackerImpl', () => {
             tracker.load('slTest4');
             expect(tracker.round).toBe(2);
         });
+
+        test('Integration test for saving', () => {
+            tracker = new TrackerImpl(new SyncJSONFileManager());
+            tracker.addTrackerObserver(new NullObserver());
+            tracker.addCharacter('Test', 20, CharacterType.PLAYER);
+            tracker.save(path.join(__dirname, 'test.files', 'integration'));
+
+            tracker = new TrackerImpl(new SyncJSONFileManager());
+            tracker.addTrackerObserver(new NullObserver());
+            tracker.load(path.join(__dirname, 'test.files', 'integration'));
+            const test = tracker.getCharacter('Test');
+            expect(test).toBeDefined();
+        })
     });
 });
 
