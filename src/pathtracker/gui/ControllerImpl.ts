@@ -1,4 +1,5 @@
-import { CharacterType, Controller, Tracker } from "../framework/interfaces";
+import { CharacterType, Tracker } from "../framework/TrackerInterfaces";
+import { Controller } from "../framework/GuiInterfaces";
 import { characterTypeFromString } from "./Util";
 export class ControllerImpl implements Controller {
     private _tracker: Tracker;

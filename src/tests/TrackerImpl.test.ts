@@ -1,8 +1,8 @@
-import { Character, CharacterType, FileManager, Tracker, TrackerObserver } from "../pathtracker/framework/interfaces";
+import { Character, CharacterType, Tracker } from "../pathtracker/framework/TrackerInterfaces";
+import { FileManager } from '../pathtracker/framework/FileManager';
+import { TrackerObserver } from '../pathtracker/framework/ObserverInterfaces';
 import { TrackerImpl } from "../pathtracker/standard/TrackerImpl";
-import { NullObserver} from "../pathtracker/doubles/NullDoubles";
-import { AsyncJSONFileManager } from "../pathtracker/standard/AsyncJSONFileManager";
-import path from "path";
+import { NullObserver } from "../pathtracker/doubles/NullDoubles";
 import { SyncJSONFileManager } from "../pathtracker/standard/SyncJSONFileManager";
 
 describe('TDD of TrackerImpl', () => {

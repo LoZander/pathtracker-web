@@ -1,5 +1,6 @@
 import { ControllerImpl } from './pathtracker/gui/ControllerImpl';
-import { Controller, Tracker } from './pathtracker/framework/interfaces';
+import { Tracker } from './pathtracker/framework/TrackerInterfaces';
+import { Controller } from "./pathtracker/framework/GuiInterfaces";
 import { GuiImpl } from './pathtracker/gui/GuiImpl';
 import { TrackerImpl } from './pathtracker/standard/TrackerImpl';
 import { SyncJSONFileManager } from './pathtracker/standard/SyncJSONFileManager';

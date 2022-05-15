@@ -1,4 +1,6 @@
-import { Character, CharacterType, Gui, Tracker, TrackerObserver } from "../framework/interfaces";
+import { Character, CharacterType, Tracker } from "../framework/TrackerInterfaces";
+import { TrackerObserver } from "../framework/ObserverInterfaces";
+import { Gui } from "../framework/GuiInterfaces";
 import { CharacterEntryImpl } from "./CharacterEntryImpl";
 
 export class GuiImpl implements Gui,TrackerObserver {

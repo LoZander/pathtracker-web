@@ -1,5 +1,6 @@
 import path from "path";
-import { CharacterType, FileManager } from "../pathtracker/framework/interfaces";
+import { CharacterType } from "../pathtracker/framework/TrackerInterfaces";
+import { FileManager } from '../pathtracker/framework/FileManager';
 import { SyncJSONFileManager } from '../pathtracker/standard/SyncJSONFileManager';
 
 let manager: FileManager;

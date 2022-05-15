@@ -1,4 +1,4 @@
-import { CharacterType } from "../framework/interfaces";
+import { CharacterType } from "../framework/TrackerInterfaces";
 
 export function characterTypeFromString(type: string): CharacterType {
     switch(type) {

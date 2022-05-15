@@ -1,4 +1,6 @@
-import { Character, CharacterEntry, CharacterObserver, CharacterType, Tracker } from "../framework/interfaces";
+import { Character, CharacterType, Tracker } from "../framework/TrackerInterfaces";
+import { CharacterObserver } from "../framework/ObserverInterfaces";
+import { CharacterEntry } from "../framework/GuiInterfaces";
 
 export class CharacterEntryImpl implements CharacterEntry,CharacterObserver {
     _entryDiv: HTMLDivElement;

@@ -1,3 +1,5 @@
+import { TrackerObserver, CharacterObserver } from "./ObserverInterfaces";
+
 /**
  * A Tracker is a list that keeps track of characters in a combat scenario.
  * These characters are sorted by when their turn is compared with eachother.
@@ -44,7 +46,8 @@ export interface Tracker {
     save(filename: string): void;
 
     /**
-     * Loads a saved tracker state
+     * Loads a saved tracker state.
+     * @param {string} filename Name of the savefile.
      */
     load(filename: string): void;
     
@@ -96,32 +99,4 @@ export interface Character {
 export enum CharacterType {
     PLAYER = "PLAYER",
     ENEMY = "ENEMY"
-}
-
-export interface Gui {
-    update(): void;
-}
-
-export interface Controller {}
-
-export interface CharacterEntry {
-    get entryDiv(): HTMLDivElement;
-}
-
-export interface TrackerObserver {
-    endOfTurn(next: Character): void;
-    characterAdded(character: Character): void;
-    characterRemoved(character: Character): void;
-    clear(): void;
-}
-
-export interface CharacterObserver {
-    nameChanged(name: string): void;
-    initiativeChanged(initiative: number): void;
-    characterInTurnChanged(inturn: Character): void;
-}
-
-export interface FileManager {
-    read(dir: string): any;
-    write(dir: string, value: any): void;
 }

@@ -1,5 +1,5 @@
-import {Tracker,CharacterType} from '../pathtracker/framework/interfaces'
-import {TrackerImpl} from '../pathtracker/standard/TrackerImpl'
+import { Tracker, CharacterType } from '../pathtracker/framework/TrackerInterfaces'
+import { TrackerImpl } from '../pathtracker/standard/TrackerImpl'
 import { NullObserver } from '../pathtracker/doubles/NullDoubles'
 import { SyncJSONFileManager } from '../pathtracker/standard/SyncJSONFileManager';
 
