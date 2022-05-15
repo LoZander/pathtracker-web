@@ -1,7 +1,5 @@
 import path from 'path';
-import {Tracker,Character, CharacterType, TrackerObserver, CharacterObserver, FileManager} from '../framework/interfaces.js';
-import { AsyncJSONFileManager } from './AsyncJSONFileManager.js';
-import { SyncJSONFileManager } from './SyncJSONFileManager.js';
+import {Tracker,Character, CharacterType, TrackerObserver, CharacterObserver, FileManager} from '../framework/interfaces';
 export class TrackerImpl implements Tracker {
     _characters: Character[];
     _characterInTurn: Character | null;

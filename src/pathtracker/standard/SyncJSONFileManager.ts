@@ -1,5 +1,5 @@
 import { FileManager } from "pathtracker/framework/interfaces";
-import fs from 'fs';
+import * as fs from 'fs';
 
 export class SyncJSONFileManager implements FileManager {
     read(dir: string): any {

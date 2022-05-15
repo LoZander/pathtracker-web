@@ -1,5 +1,5 @@
-import { CharacterType, Controller, Tracker } from "../framework/interfaces.js";
-import { characterTypeFromString } from "./Util.js";
+import { CharacterType, Controller, Tracker } from "../framework/interfaces";
+import { characterTypeFromString } from "./Util";
 export class ControllerImpl implements Controller {
     private _tracker: Tracker;
     
@@ -10,19 +10,6 @@ export class ControllerImpl implements Controller {
         document.getElementById("addButton").addEventListener("click", () => this.add());
         document.getElementById("nextTurnButton").addEventListener("click", () => this.nextTurn());
     }
-    setupNextCharacterController(): void {
-        throw new Error("Method not implemented.");
-    }
-    setupAddCharacterController(): void {
-        throw new Error("Method not implemented.");
-    }
-    setupClearController(): void {
-        throw new Error("Method not implemented.");
-    }
-    setupRemoveController(): void {
-        throw new Error("Method not implemented.");
-    }
-
 
     private nextTurn(): void {
         this._tracker.nextTurn();
@@ -32,7 +19,11 @@ export class ControllerImpl implements Controller {
         let name = this.getNameInput()
         let initiative = this.getInitiativeInput();
         let type = this.getTypeInput();
-        this._tracker.addCharacter(name, initiative, type);
+        try {
+            this._tracker.addCharacter(name, initiative, type);
+        } catch (err) {
+            alert(err);
+        }
     }
 
     private getNameInput(): string {

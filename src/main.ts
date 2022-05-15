@@ -1,8 +1,8 @@
-import { ControllerImpl } from './pathtracker/gui/ControllerImpl.js';
-import { Controller, Tracker } from './pathtracker/framework/interfaces.js';
-import { GuiImpl } from './pathtracker/gui/GuiImpl.js';
-import { TrackerImpl } from './pathtracker/standard/TrackerImpl.js';
-import { SyncJSONFileManager } from 'pathtracker/standard/SyncJSONFileManager.js';
+import { ControllerImpl } from './pathtracker/gui/ControllerImpl';
+import { Controller, Tracker } from './pathtracker/framework/interfaces';
+import { GuiImpl } from './pathtracker/gui/GuiImpl';
+import { TrackerImpl } from './pathtracker/standard/TrackerImpl';
+import { SyncJSONFileManager } from './pathtracker/standard/SyncJSONFileManager';
 
 const tracker: Tracker = new TrackerImpl(new SyncJSONFileManager());
 const gui = new GuiImpl(tracker);

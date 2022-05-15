@@ -1,4 +1,4 @@
-import { Character, CharacterEntry, CharacterObserver, CharacterType, Tracker } from "../framework/interfaces.js";
+import { Character, CharacterEntry, CharacterObserver, CharacterType, Tracker } from "../framework/interfaces";
 
 export class CharacterEntryImpl implements CharacterEntry,CharacterObserver {
     _entryDiv: HTMLDivElement;
