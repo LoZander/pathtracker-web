@@ -1,8 +1,6 @@
-import path from 'path';
 import {Tracker,Character, CharacterType} from '../framework/TrackerInterfaces';
 import { TrackerObserver, CharacterObserver } from "../framework/ObserverInterfaces";
 import { FileManager } from "../framework/FileManager";
-import { app } from 'electron';
 export class TrackerImpl implements Tracker {
     private _characters: Character[];
     private _characterInTurn: Character | null;

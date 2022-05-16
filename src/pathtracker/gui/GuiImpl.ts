@@ -33,7 +33,9 @@ export class GuiImpl implements Gui,TrackerObserver {
         throw new Error("Method not implemented.");
     }
 
-    endOfTurn(next: Character): void {}
+    endOfTurn(next: Character): void {
+        document.getElementById('round').innerText = this._tracker.round + "";
+    }
     
     characterAdded(character: Character): void {
         this.update();

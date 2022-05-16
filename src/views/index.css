@@ -72,12 +72,18 @@
     }
 }
 
-@media screen and (min-width: 800px) {
-
-}
-
 #content {
     text-align: center;
+}
+
+#content > p {
+    line-height: 1rem;
+    padding: 0;
+    margin: 0.5rem;
+}
+
+#round {
+    font-size: 2rem;
 }
 
 .character {
