@@ -103,10 +103,11 @@
 }
 
 .inturn {
+    transform: translateX(-20%);
     transition: 0.5s;
-    font-size: 1.2rem;
+    /* font-size: 1.2rem;
     width: 18rem;
-    height: 4rem;
+    height: 4rem; */
 }
 
 .character > div {
