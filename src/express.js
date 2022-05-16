@@ -1,6 +1,5 @@
-const express = require("express");
-const path = require('path');
-const favicon = require('serve-favicon');
+import express from 'express';
+import path from 'path';
 const port = 3000
 
 let app = express();

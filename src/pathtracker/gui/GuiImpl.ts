@@ -30,11 +30,12 @@ export class GuiImpl implements Gui,TrackerObserver {
     }
     
     clear(): void {
-        throw new Error("Method not implemented.");
+        this._charactersDiv.innerHTML = '';
+        document.getElementById('round').innerText = this._tracker.round + '';
     }
 
     endOfTurn(next: Character): void {
-        document.getElementById('round').innerText = this._tracker.round + "";
+        document.getElementById('round').innerText = this._tracker.round + '';
     }
     
     characterAdded(character: Character): void {

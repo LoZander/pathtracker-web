@@ -49,6 +49,10 @@ function createWindow() {
                     label: 'Next turn',
                     click: () => win.webContents.send('request_next_turn'),
                     accelerator: 'Ctrl+E'
+                },
+                {
+                    label: 'Clear',
+                    click: () => win.webContents.send('request_clear')
                 }
             ]
         },

@@ -4,7 +4,7 @@ import { Controller } from "./pathtracker/framework/GuiInterfaces";
 import { GuiImpl } from './pathtracker/gui/GuiImpl';
 import { TrackerImpl } from './pathtracker/standard/TrackerImpl';
 import { SyncJSONFileManager } from './pathtracker/standard/SyncJSONFileManager';
-import { app, dialog, ipcMain, ipcRenderer } from 'electron';
+import { ipcRenderer } from 'electron';
 
 const tracker: Tracker = new TrackerImpl(new SyncJSONFileManager());
 const gui = new GuiImpl(tracker);
@@ -19,8 +19,10 @@ ipcRenderer.on('request_save', (event,savefile) => {
 
 });
 ipcRenderer.on('request_load', (event,savefile) => {
-    alert(savefile);
     tracker.load(savefile);
+});
+ipcRenderer.on('request_clear', (event,_) => {
+    tracker.clear();
 });
 
 window.onload = () => {
