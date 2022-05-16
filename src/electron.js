@@ -26,20 +26,33 @@ function createWindow() {
                         dialog.showSaveDialog(win, {
                             title: 'Save tracker',
                             filters: [
-                                {name: 'Save file', extensions: ['json']}
+                                {name: 'Tracker file', extensions: ['json']}
                             ],
-                            defaultPath: 'save',
+                            defaultPath: __dirname + '/save.json',
                         }).then(file => {
                             if(!file.canceled) {
                                 win.webContents.send('request_save', file.filePath.toString());
                             }
                         });
-                    }
+                    },
+                    accelerator: 'Ctrl+S'
                 },
                 {
                     label: 'Load',
-                    click: () => win.webContents.send('request_load', dialog.showOpenDialogSync(win, {})[0])
+                    click: () => {
+                        const paths = dialog.showOpenDialogSync(win, {
+                            title: 'Load tracker',
+                            filters: [
+                                {name: 'Tracker file', extensions: ['json']}
+                            ],
+                            defaultPath: __dirname + '/'
+                        });
+
+                        if(paths != undefined) win.webContents.send('request_load', paths[0])
+                    },
+                    accelerator: 'Ctrl+L'
                 }
+                
             ]
         },
         {

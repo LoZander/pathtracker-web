@@ -1,6 +1,5 @@
 # Backlog
-- Fix invalid inputs (fx letters in initiative)
 - Dark mode
-- Saving
 - HP tracking
 - Conditions
+- Fix character in turn not persistent when loading and saving

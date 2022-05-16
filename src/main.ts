@@ -19,6 +19,7 @@ ipcRenderer.on('request_save', (event,savefile) => {
 
 });
 ipcRenderer.on('request_load', (event,savefile) => {
+    if(savefile === undefined) return;
     tracker.load(savefile);
 });
 ipcRenderer.on('request_clear', (event,_) => {
