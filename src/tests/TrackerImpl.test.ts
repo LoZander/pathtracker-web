@@ -4,6 +4,8 @@ import { TrackerObserver } from '../pathtracker/framework/ObserverInterfaces';
 import { TrackerImpl } from "../pathtracker/standard/TrackerImpl";
 import { NullObserver } from "../pathtracker/doubles/NullDoubles";
 import { SyncJSONFileManager } from "../pathtracker/standard/SyncJSONFileManager";
+import { NoAutosaveStrategy } from "../pathtracker/standard/NoAutosaveStrategy";
+import { StandardAutosaveStrategy} from "../pathtracker/standard/StandardAutosaveStrategy";
 import path from "path";
 
 describe('TDD of TrackerImpl', () => {
@@ -11,7 +13,7 @@ describe('TDD of TrackerImpl', () => {
     let mockFileManager: FileManager;
     beforeEach(() => {
         mockFileManager = new MockFileManager();
-        tracker = new TrackerImpl(mockFileManager)
+        tracker = new TrackerImpl(mockFileManager, new NoAutosaveStrategy())
         tracker.addTrackerObserver(new NullObserver());
     });
 
@@ -254,7 +256,7 @@ describe('TDD of TrackerImpl', () => {
     describe('TDD of observer pattern', () => {
         let observer: ObserverSpy;
         beforeEach(() => {
-            tracker = new TrackerImpl(new MockFileManager());
+            tracker = new TrackerImpl(new MockFileManager(), new NoAutosaveStrategy());
             observer = new ObserverSpy();
             tracker.addTrackerObserver(observer);
         });
@@ -318,7 +320,7 @@ describe('TDD of TrackerImpl', () => {
         test('When saving the tracker, 20 Test1 Player should be recovered upon loading', async () => {
             tracker.addCharacter('Test1', 20, CharacterType.PLAYER);
             tracker.save('slTest1');
-            tracker = new TrackerImpl(mockFileManager);
+            tracker = new TrackerImpl(mockFileManager, new NoAutosaveStrategy());
             tracker.addTrackerObserver(new NullObserver());
 
             tracker.load('slTest1');
@@ -330,7 +332,7 @@ describe('TDD of TrackerImpl', () => {
         test('When saving the tracker, 10 Test2 Enemy should be recovered upon loading', async () => {
             tracker.addCharacter('Test2', 10, CharacterType.ENEMY);
             tracker.save('slTest2');
-            tracker = new TrackerImpl(mockFileManager);
+            tracker = new TrackerImpl(mockFileManager, new NoAutosaveStrategy());
             tracker.addTrackerObserver(new NullObserver());
 
             tracker.load('slTest2');
@@ -350,7 +352,7 @@ describe('TDD of TrackerImpl', () => {
 
             tracker.save('slTest3');
 
-            tracker = new TrackerImpl(mockFileManager);
+            tracker = new TrackerImpl(mockFileManager, new NoAutosaveStrategy());
             tracker.addTrackerObserver(new NullObserver());
             tracker.load('slTest3');
             expect(tracker.characterInTurn.name).toBe('Test3');
@@ -366,19 +368,19 @@ describe('TDD of TrackerImpl', () => {
 
             tracker.save('slTest4');
             
-            tracker = new TrackerImpl(mockFileManager);
+            tracker = new TrackerImpl(mockFileManager, new NoAutosaveStrategy());
             tracker.addTrackerObserver(new NullObserver());
             tracker.load('slTest4');
             expect(tracker.round).toBe(2);
         });
 
         test('Integration test for saving', () => {
-            tracker = new TrackerImpl(new SyncJSONFileManager());
+            tracker = new TrackerImpl(new SyncJSONFileManager(), new NoAutosaveStrategy());
             tracker.addTrackerObserver(new NullObserver());
             tracker.addCharacter('Test', 20, CharacterType.PLAYER);
             tracker.save(path.join(__dirname, 'test.files', 'integration.json'));
 
-            tracker = new TrackerImpl(new SyncJSONFileManager());
+            tracker = new TrackerImpl(new SyncJSONFileManager(), new NoAutosaveStrategy());
             tracker.addTrackerObserver(new NullObserver());
             tracker.load(path.join(__dirname, 'test.files', 'integration.json'));
             const test = tracker.getCharacter('Test');
@@ -386,7 +388,7 @@ describe('TDD of TrackerImpl', () => {
         });
 
         test('Integration test: saving saves character in turn', () => {
-            tracker = new TrackerImpl(new SyncJSONFileManager());
+            tracker = new TrackerImpl(new SyncJSONFileManager(), new NoAutosaveStrategy());
             tracker.addTrackerObserver(new NullObserver());
             tracker.addCharacter('Test1', 30, CharacterType.PLAYER);
             tracker.addCharacter('Test2', 20, CharacterType.PLAYER);
@@ -397,7 +399,7 @@ describe('TDD of TrackerImpl', () => {
 
             tracker.save(path.join(__dirname, 'test.files', 'integration2.json'));
             
-            tracker = new TrackerImpl(new SyncJSONFileManager());
+            tracker = new TrackerImpl(new SyncJSONFileManager(), new NoAutosaveStrategy());
             tracker.addTrackerObserver(new NullObserver());
             tracker.load(path.join(__dirname, 'test.files', 'integration2.json'))
 
@@ -408,6 +410,57 @@ describe('TDD of TrackerImpl', () => {
             
             const test2 = tracker.characterInTurn;
             expect(test2.name).toBe('Test3');
+        });
+    });
+
+    describe('Testing auto-saving', () => {
+        let spy: SpyFileManagerDecorator;
+        beforeEach(() => {
+            spy = new SpyFileManagerDecorator(new MockFileManager());
+            tracker = new TrackerImpl(spy, new StandardAutosaveStrategy());
+            tracker.addTrackerObserver(new NullObserver());
+        });
+
+        test('Tracker should auto-save after adding a character', () => {
+            tracker.addCharacter('Test', 20, CharacterType.PLAYER);
+            expect(spy.writeCalled).toBe(1);
+        });
+
+        test('Tracker shold auto-save after removing a character', () => {
+            tracker.addCharacter('Test', 20, CharacterType.PLAYER);
+            tracker.remove('Test');
+            expect(spy.writeCalled).toBe(2);
+        });
+
+        test('Tracker should auto-save after a characters turn ending', () => {
+            tracker.addCharacter('Test1', 20, CharacterType.PLAYER);
+            tracker.addCharacter('Test2', 10, CharacterType.PLAYER);
+            tracker.addCharacter('Test3', 5, CharacterType.PLAYER);
+
+            tracker.nextTurn();
+
+            expect(spy.writeCalled).toBe(3 + 1);
+        });
+
+        test('Tracker should auto-save after clearing the tracker', () => {
+            tracker.addCharacter('Test1', 20, CharacterType.PLAYER);
+            tracker.addCharacter('Test2', 10, CharacterType.PLAYER);
+            tracker.addCharacter('Test3', 5, CharacterType.PLAYER);
+
+            tracker.clear();
+            expect(spy.writeCalled).toBe(3 + 1);
+        });
+
+        test('Tracker should auto-save after loading a save', () => {
+            tracker.addCharacter('Test1', 20, CharacterType.PLAYER);
+            tracker.addCharacter('Test2', 10, CharacterType.PLAYER);
+            tracker.addCharacter('Test3', 5, CharacterType.PLAYER);
+
+            tracker.save(path.join(__dirname, 'test.json'));
+
+            tracker.load(path.join(__dirname, 'test.json'));
+
+            expect(spy.writeCalled).toBe(3 + 1 + 1);
         });
     });
 });
@@ -464,5 +517,28 @@ class MockFileManager implements FileManager {
     write(dir: string, value: any): void {
         this._files.set(dir, value);
     }
+}
 
+class SpyFileManagerDecorator implements FileManager {
+    private _decoratee: FileManager;
+    private _readCalled: number;
+    private _writeCalled: number;
+
+    constructor(fileManager: FileManager) {
+        this._decoratee = fileManager;
+        this._readCalled = 0;
+        this._writeCalled = 0;
+    }
+
+    read(dir: string) {
+        this._readCalled++;
+        return this._decoratee.read(dir);
+    }
+    write(dir: string, value: any): void {
+        this._writeCalled++;
+        this._decoratee.write(dir, value);
+    }
+
+    get readCalled(): number {return this._readCalled}
+    get writeCalled(): number {return this._writeCalled}
 }

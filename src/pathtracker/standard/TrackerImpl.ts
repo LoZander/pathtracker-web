@@ -1,7 +1,9 @@
 import {Tracker,Character, CharacterType} from '../framework/TrackerInterfaces';
 import { TrackerObserver, CharacterObserver } from "../framework/ObserverInterfaces";
 import { FileManager } from "../framework/FileManager";
-import { SyncJSONFileManager } from './SyncJSONFileManager';
+import path from 'path';
+import { AutosaveStrategy } from 'pathtracker/framework/AutosaveStrategy';
+
 export class TrackerImpl implements Tracker {
     private _characters: Character[];
     private _characterInTurn: Character | null;
@@ -9,13 +11,15 @@ export class TrackerImpl implements Tracker {
     private _trackerObserver: TrackerObserver;
     private _characterObservers: CharacterObserver[];
     private _fileManager: FileManager;
+    private _autosaveStrategy: AutosaveStrategy;
     
-    constructor(fileManager: FileManager) {
+    constructor(fileManager: FileManager, autosaveStrategy: AutosaveStrategy) {
         this._characters = [];
         this._characterInTurn = null;
         this._round = 0;
         this._characterObservers = [];
         this._fileManager = fileManager;
+        this._autosaveStrategy = autosaveStrategy;
     }
 
     save(filename: string): void {
@@ -28,6 +32,8 @@ export class TrackerImpl implements Tracker {
         this._characterInTurn = loaded.characterInTurn as Character;
         this._round = loaded.round as number;
         this._trackerObserver.loaded(this);
+
+        this._autosaveStrategy.autosave(this);
     }
 
     get characters(): Character[] {
@@ -66,6 +72,8 @@ export class TrackerImpl implements Tracker {
             if(isNewRound) this._round++;
         }
         this._trackerObserver.endOfTurn(this.characterInTurn);
+
+        this._autosaveStrategy.autosave(this);
     }
 
     private nextIndex(): number {
@@ -77,11 +85,13 @@ export class TrackerImpl implements Tracker {
     addCharacter(name: string, initiative: number, type: CharacterType): void {
         this.checkCharacterIsValid(name, initiative, type);
 
-        const character = {name: name, initiative: initiative, type: type}
+        const character: Character = {name: name, initiative: initiative, type: type}
         this._characters.push(character);
         this.sort();
 
         this._trackerObserver.characterAdded(character);
+
+        this._autosaveStrategy.autosave(this);
     }
 
     private checkCharacterIsValid(name: string, initiative: number, type: CharacterType): void {
@@ -116,6 +126,9 @@ export class TrackerImpl implements Tracker {
         this.characters.splice(removeIndex,1);
 
         this._trackerObserver.characterRemoved(removee);
+
+        this._autosaveStrategy.autosave(this);
+
         return removee;
     }
 
@@ -128,6 +141,8 @@ export class TrackerImpl implements Tracker {
         this._characters = []
         this._round = 0;
         this._trackerObserver.clear();
+
+        this._autosaveStrategy.autosave(this);
     }
 
     addTrackerObserver(trackerObserver: TrackerObserver): void {

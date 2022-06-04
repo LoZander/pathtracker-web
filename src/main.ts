@@ -4,9 +4,11 @@ import { Controller } from "./pathtracker/framework/GuiInterfaces";
 import { GuiImpl } from './pathtracker/gui/GuiImpl';
 import { TrackerImpl } from './pathtracker/standard/TrackerImpl';
 import { SyncJSONFileManager } from './pathtracker/standard/SyncJSONFileManager';
+import { StandardAutosaveStrategy } from './pathtracker/standard/StandardAutosaveStrategy';
+import { NoAutosaveStrategy } from './pathtracker/standard/NoAutosaveStrategy';
 import { ipcRenderer } from 'electron';
 
-const tracker: Tracker = new TrackerImpl(new SyncJSONFileManager());
+const tracker: Tracker = new TrackerImpl(new SyncJSONFileManager(), new StandardAutosaveStrategy());
 const gui = new GuiImpl(tracker);
 const controller: Controller = new ControllerImpl(tracker);
 tracker.addTrackerObserver(gui);
