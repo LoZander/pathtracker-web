@@ -5,7 +5,6 @@ export class ControllerImpl implements Controller {
     private _tracker: Tracker;
     
     constructor(tracker: Tracker) {
-        console.log("test");
         this._tracker = tracker;
         console.log(this._tracker);
         document.getElementById("addButton").addEventListener("click", () => this.add());
@@ -23,7 +22,7 @@ export class ControllerImpl implements Controller {
         try {
             this._tracker.addCharacter(name, initiative, type);
         } catch (err) {
-            alert(err);
+            alert(err + 'adadadad');
         }
         this.clearInputValue('nameInput');
         this.clearInputValue('initInput');
