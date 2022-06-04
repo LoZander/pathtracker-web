@@ -4,6 +4,6 @@ import { AutosaveStrategy } from "pathtracker/framework/AutosaveStrategy";
 
 export class StandardAutosaveStrategy implements AutosaveStrategy {
     autosave(tracker: Tracker): void {
-        tracker.save(path.join(__dirname, '..', 'autosave.json'));
+        tracker.save(path.join(__dirname, '..', '..', '..', 'resources', 'autosave.json'));
     }
 }

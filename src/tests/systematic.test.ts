@@ -3,11 +3,16 @@ import { TrackerImpl } from '../pathtracker/standard/TrackerImpl'
 import { NullObserver } from '../pathtracker/doubles/NullDoubles'
 import { SyncJSONFileManager } from '../pathtracker/standard/SyncJSONFileManager';
 import { NoAutosaveStrategy } from '../pathtracker/standard/NoAutosaveStrategy';
+import { NoAutoloadStrategy } from '../pathtracker/standard/NoAutoloadStrategy';
 
 describe('Systematic testing of nextTurn and round count updating', () => {
     let tracker: Tracker;
     beforeEach(() => {
-        tracker = new TrackerImpl(new SyncJSONFileManager(), new NoAutosaveStrategy());
+        tracker = new TrackerImpl({
+            createFileManager: () => new SyncJSONFileManager(),
+            createAutoloadStrategy: () => new NoAutoloadStrategy(),
+            createAutosaveStrategy: () => new NoAutosaveStrategy()
+        });
         tracker.addTrackerObserver(new NullObserver());
         
         tracker.addCharacter('Test1', 20, CharacterType.PLAYER);
@@ -55,7 +60,11 @@ describe('Systematic testing of nextTurn and round count updating', () => {
     });
 
     test('ECs [a1]: Nothing should happen when turn ends with no characters', () => {
-        tracker = new TrackerImpl(new SyncJSONFileManager(), new NoAutosaveStrategy());
+        tracker = new TrackerImpl({
+            createFileManager: () => new SyncJSONFileManager(),
+            createAutoloadStrategy: () => new NoAutoloadStrategy(),
+            createAutosaveStrategy: () => new NoAutosaveStrategy()
+        });
         tracker.nextTurn();
         expect(tracker.characterInTurn).toBeNull;
         expect(tracker.round).toBe(0);

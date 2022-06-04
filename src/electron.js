@@ -28,7 +28,7 @@ function createWindow() {
                             filters: [
                                 {name: 'Tracker file', extensions: ['json']}
                             ],
-                            defaultPath: __dirname + '/save.json',
+                            defaultPath: path.join(app.getAppPath(), '..', 'saves', 'save.json'),
                         }).then(file => {
                             if(!file.canceled) {
                                 win.webContents.send('request_save', file.filePath.toString());
@@ -45,7 +45,7 @@ function createWindow() {
                             filters: [
                                 {name: 'Tracker file', extensions: ['json']}
                             ],
-                            defaultPath: __dirname + '/'
+                            defaultPath: path.join(app.getAppPath(), '..', 'saves', 'save.json'),
                         });
 
                         if(paths != undefined) win.webContents.send('request_load', paths[0])

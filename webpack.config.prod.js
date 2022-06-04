@@ -5,6 +5,9 @@ module.exports = {
 	devtool: 'eval',
 	entry: './src/main.ts',
 	target: 'electron-main',
+	node: {
+		__dirname: true
+	},
   	module: {
 		rules: [
 	  		{

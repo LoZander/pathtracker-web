@@ -6,18 +6,21 @@ import { NullObserver } from "../pathtracker/doubles/NullDoubles";
 import { SyncJSONFileManager } from "../pathtracker/standard/SyncJSONFileManager";
 import { NoAutosaveStrategy } from "../pathtracker/standard/NoAutosaveStrategy";
 import { StandardAutosaveStrategy} from "../pathtracker/standard/StandardAutosaveStrategy";
+import { TrackerFactory } from "../pathtracker/framework/TrackerFactory";
 import path from "path";
+import { AutosaveStrategy } from "../pathtracker/framework/AutosaveStrategy";
+import { AutoloadStrategy } from "../pathtracker/framework/AutoloadStrategy";
+import { NoAutoloadStrategy } from "../pathtracker/standard/NoAutoloadStrategy";
+import { StandardAutoloadStrategy } from "../pathtracker/standard/StandardAutoloadStrategy";
 
 describe('TDD of TrackerImpl', () => {
-    let tracker: Tracker;
-    let mockFileManager: FileManager;
-    beforeEach(() => {
-        mockFileManager = new MockFileManager();
-        tracker = new TrackerImpl(mockFileManager, new NoAutosaveStrategy())
-        tracker.addTrackerObserver(new NullObserver());
-    });
-
     describe('TDD of adding characters', () => {
+        let tracker: Tracker;
+        beforeEach(() => {
+            tracker = new TrackerImpl(new TrackerFactoryStub());
+            tracker.addTrackerObserver(new NullObserver());
+        });
+
         test('Adding a player character should add a character with the right type', () => {
             tracker.addCharacter('Test', 20, CharacterType.PLAYER);
             expect(tracker.getCharacter('Test').type).toBe(CharacterType.PLAYER);
@@ -78,6 +81,12 @@ describe('TDD of TrackerImpl', () => {
     });
 
     describe('TDD of ending turns and rounds', () => {
+        let tracker: Tracker;
+        beforeEach(() => {
+            tracker = new TrackerImpl(new TrackerFactoryStub());
+            tracker.addTrackerObserver(new NullObserver());
+        });
+
         test('When it isn\'t any one\'s turn yet, there should be no character in turn', () => {
             tracker.addCharacter('Test1',10, CharacterType.PLAYER);
             tracker.addCharacter('Test2',30, CharacterType.PLAYER);
@@ -123,6 +132,12 @@ describe('TDD of TrackerImpl', () => {
     });
 
     describe('TDD of sorting', () => {
+        let tracker: Tracker;
+        beforeEach(() => {
+            tracker = new TrackerImpl(new TrackerFactoryStub());
+            tracker.addTrackerObserver(new NullObserver());
+        });
+
         test('Tracker should be sorted firstly by initiative', () => {
             tracker.addCharacter('Test3', 10, CharacterType.PLAYER);
             tracker.addCharacter('Test1', 20, CharacterType.ENEMY);
@@ -172,6 +187,12 @@ describe('TDD of TrackerImpl', () => {
     });
 
     describe('TDD of removing characters', () => {
+        let tracker: Tracker;
+        beforeEach(() => {
+            tracker = new TrackerImpl(new TrackerFactoryStub());
+            tracker.addTrackerObserver(new NullObserver());
+        });
+
         test('Characters should be removable by name', () => {
             tracker.addCharacter('Test1', 20, CharacterType.ENEMY);
             tracker.addCharacter('Test2', 15, CharacterType.PLAYER);
@@ -213,9 +234,24 @@ describe('TDD of TrackerImpl', () => {
             let character = tracker.getCharacter('Test2');
             expect(character).toBeUndefined();
         });
+
+        test('Removing the character in turn, if there is only that one character, means no character will be in turn', () => {
+            tracker.addCharacter('Test1', 20, CharacterType.PLAYER);
+
+            tracker.nextTurn();
+            tracker.remove('Test1');
+            let character = tracker.characterInTurn;
+            expect(character).toBeNull();
+        });
     });
 
     describe('TDD of getting characters', () => {
+        let tracker: Tracker;
+        beforeEach(() => {
+            tracker = new TrackerImpl(new TrackerFactoryStub());
+            tracker.addTrackerObserver(new NullObserver());
+        });
+
         test('Getting a character that doesn\'t exist returns undefined', () => {
             expect(tracker.getCharacter('Test')).toBeUndefined;
         });
@@ -226,6 +262,12 @@ describe('TDD of TrackerImpl', () => {
     });
 
     describe('TDD of clearing of the tracker', () => {
+        let tracker: Tracker;
+        beforeEach(() => {
+            tracker = new TrackerImpl(new TrackerFactoryStub());
+            tracker.addTrackerObserver(new NullObserver());
+        });
+
         test('Clearing should remove all characters', () => {
             tracker.addCharacter('Test1', 20, CharacterType.ENEMY);
             tracker.addCharacter('Test2', 15, CharacterType.PLAYER);
@@ -254,18 +296,21 @@ describe('TDD of TrackerImpl', () => {
     });
 
     describe('TDD of observer pattern', () => {
+        let tracker: Tracker;
         let observer: ObserverSpy;
         beforeEach(() => {
-            tracker = new TrackerImpl(new MockFileManager(), new NoAutosaveStrategy());
+            tracker = new TrackerImpl(new TrackerFactoryStub());
             observer = new ObserverSpy();
             tracker.addTrackerObserver(observer);
         });
         
         test('Removing a character should call upon characterRemoved', () => {
+            const calledBefore = observer.characterRemovedCalled
             tracker.addCharacter('Test', 20, CharacterType.PLAYER);
             tracker.remove('Test');
+            const calledAfter = observer.characterRemovedCalled
 
-            expect(observer.characterRemovedCalled).toBe(1);
+            expect(calledAfter - calledBefore).toBe(1);
         });
 
         test('Removing the character in turn, should call upon characterRemoved', () => {
@@ -276,51 +321,82 @@ describe('TDD of TrackerImpl', () => {
             tracker.nextTurn();
             tracker.nextTurn();
 
+            const calledBefore = observer.characterRemovedCalled
+
             tracker.remove('Test2');
 
-            expect(observer.characterRemovedCalled).toBe(1);
+            const calledAfter = observer.characterRemovedCalled
+
+            expect(calledAfter - calledBefore).toBe(1);
         });
 
         test('Attempting to remove a character not on the tracker will not call upon characterRemoved', () => {
+            const calledBefore = observer.characterRemovedCalled
             tracker.remove('Something');
-            expect(observer.characterRemovedCalled).toBe(0);
+            const calledAfter = observer.characterRemovedCalled
+
+            expect(calledAfter - calledBefore).toBe(0);
         });
 
         test('Adding a character will call upon characterAdded', () => {
+            const calledBefore = observer.characterAddedCalled
             tracker.addCharacter('Test', 10, CharacterType.ENEMY);
-            expect(observer.characterAddedCalled).toBe(1);
+            const calledAfter = observer.characterAddedCalled
+
+            expect(calledAfter - calledBefore).toBe(1);
         });
 
         test('Clearing the tracker will call upon clear', () => {
             tracker.addCharacter('Test', 10, CharacterType.ENEMY);
+
+            const calledBefore = observer.clearCalled
             tracker.clear();
-            expect(observer.clearCalled).toBe(1);
+            const calledAfter = observer.clearCalled
+
+            expect(calledAfter - calledBefore).toBe(1);
         });
 
         test('Ending the turn, should call upon endOfTurn', () => {
             tracker.addCharacter('Test', 10, CharacterType.ENEMY);
             tracker.addCharacter('Test2', 2, CharacterType.ENEMY);
+
+            const calledBefore = observer.endOfTurnCalled
             tracker.nextTurn();
-            expect(observer.endOfTurnCalled).toBe(1);
+            const calledAfter = observer.endOfTurnCalled
+
+            expect(calledAfter - calledBefore).toBe(1);
         });
 
         test('Ending the turn, should not call upon endOfTurn if tracker is empty', () => {
+            const calledBefore = observer.endOfTurnCalled
             tracker.nextTurn();
-            expect(observer.endOfTurnCalled).toBe(0);
+            const calledAfter = observer.endOfTurnCalled
+
+            expect(calledAfter - calledBefore).toBe(0);
         });
 
         test('Loading a save should call upon loaded', () => {
+            const calledBefore = observer.loadedCalled;
             tracker.save(path.join(__dirname, 'save.json'));
             tracker.load(path.join(__dirname, 'save.json'));
-            expect(observer.loadedCalled).toBe(1);
+            const calledAfter = observer.loadedCalled;
+            expect(calledAfter - calledBefore).toBe(1);
         });
     });
 
     describe('Testing save/load functionality', () => {
+        let tracker: Tracker;
+        let mockFileManager: FileManager;
+        beforeEach(() => {
+            mockFileManager = new MockFileManager();
+            tracker = new TrackerImpl(new TrackerFactoryStub2(mockFileManager));
+            tracker.addTrackerObserver(new NullObserver());
+        });
+
         test('When saving the tracker, 20 Test1 Player should be recovered upon loading', async () => {
             tracker.addCharacter('Test1', 20, CharacterType.PLAYER);
             tracker.save('slTest1');
-            tracker = new TrackerImpl(mockFileManager, new NoAutosaveStrategy());
+            tracker = new TrackerImpl(new TrackerFactoryStub2(mockFileManager));
             tracker.addTrackerObserver(new NullObserver());
 
             tracker.load('slTest1');
@@ -332,7 +408,7 @@ describe('TDD of TrackerImpl', () => {
         test('When saving the tracker, 10 Test2 Enemy should be recovered upon loading', async () => {
             tracker.addCharacter('Test2', 10, CharacterType.ENEMY);
             tracker.save('slTest2');
-            tracker = new TrackerImpl(mockFileManager, new NoAutosaveStrategy());
+            tracker = new TrackerImpl(new TrackerFactoryStub2(mockFileManager));
             tracker.addTrackerObserver(new NullObserver());
 
             tracker.load('slTest2');
@@ -352,7 +428,7 @@ describe('TDD of TrackerImpl', () => {
 
             tracker.save('slTest3');
 
-            tracker = new TrackerImpl(mockFileManager, new NoAutosaveStrategy());
+            tracker = new TrackerImpl(new TrackerFactoryStub2(mockFileManager));
             tracker.addTrackerObserver(new NullObserver());
             tracker.load('slTest3');
             expect(tracker.characterInTurn.name).toBe('Test3');
@@ -368,19 +444,24 @@ describe('TDD of TrackerImpl', () => {
 
             tracker.save('slTest4');
             
-            tracker = new TrackerImpl(mockFileManager, new NoAutosaveStrategy());
+            tracker = new TrackerImpl(new TrackerFactoryStub2(mockFileManager));
             tracker.addTrackerObserver(new NullObserver());
             tracker.load('slTest4');
             expect(tracker.round).toBe(2);
         });
 
         test('Integration test for saving', () => {
-            tracker = new TrackerImpl(new SyncJSONFileManager(), new NoAutosaveStrategy());
+            tracker = new TrackerImpl({
+                createFileManager: () => new SyncJSONFileManager,
+                createAutoloadStrategy: () => new NoAutoloadStrategy(),
+                createAutosaveStrategy: () => new NoAutosaveStrategy(),
+            });
+
             tracker.addTrackerObserver(new NullObserver());
             tracker.addCharacter('Test', 20, CharacterType.PLAYER);
             tracker.save(path.join(__dirname, 'test.files', 'integration.json'));
 
-            tracker = new TrackerImpl(new SyncJSONFileManager(), new NoAutosaveStrategy());
+            tracker = new TrackerImpl(new TrackerFactoryStub3());
             tracker.addTrackerObserver(new NullObserver());
             tracker.load(path.join(__dirname, 'test.files', 'integration.json'));
             const test = tracker.getCharacter('Test');
@@ -388,7 +469,7 @@ describe('TDD of TrackerImpl', () => {
         });
 
         test('Integration test: saving saves character in turn', () => {
-            tracker = new TrackerImpl(new SyncJSONFileManager(), new NoAutosaveStrategy());
+            tracker = new TrackerImpl(new TrackerFactoryStub3());
             tracker.addTrackerObserver(new NullObserver());
             tracker.addCharacter('Test1', 30, CharacterType.PLAYER);
             tracker.addCharacter('Test2', 20, CharacterType.PLAYER);
@@ -399,7 +480,7 @@ describe('TDD of TrackerImpl', () => {
 
             tracker.save(path.join(__dirname, 'test.files', 'integration2.json'));
             
-            tracker = new TrackerImpl(new SyncJSONFileManager(), new NoAutosaveStrategy());
+            tracker = new TrackerImpl(new TrackerFactoryStub3());
             tracker.addTrackerObserver(new NullObserver());
             tracker.load(path.join(__dirname, 'test.files', 'integration2.json'))
 
@@ -414,10 +495,17 @@ describe('TDD of TrackerImpl', () => {
     });
 
     describe('Testing auto-saving', () => {
+        let tracker: Tracker;
         let spy: SpyFileManagerDecorator;
+        let mockFileManager: FileManager;
         beforeEach(() => {
-            spy = new SpyFileManagerDecorator(new MockFileManager());
-            tracker = new TrackerImpl(spy, new StandardAutosaveStrategy());
+            mockFileManager = new MockFileManager
+            spy = new SpyFileManagerDecorator(mockFileManager);
+            tracker = new TrackerImpl({
+                createFileManager: () => spy,
+                createAutoloadStrategy: () => new NoAutoloadStrategy(),
+                createAutosaveStrategy: () => new StandardAutosaveStrategy()
+            });
             tracker.addTrackerObserver(new NullObserver());
         });
 
@@ -462,8 +550,72 @@ describe('TDD of TrackerImpl', () => {
 
             expect(spy.writeCalled).toBe(3 + 1 + 1);
         });
+
+        test('Tracker should load autosave automatically upon starting', () => {
+            tracker.addCharacter('Test1', 20, CharacterType.PLAYER);
+            tracker.addCharacter('Test2', 10, CharacterType.PLAYER);
+            tracker.addCharacter('Test3', 5, CharacterType.PLAYER);
+
+            tracker = new TrackerImpl({
+                createFileManager: () => mockFileManager,
+                createAutoloadStrategy: () => new StandardAutoloadStrategy(),
+                createAutosaveStrategy: () => new StandardAutosaveStrategy()
+            });
+            tracker.addTrackerObserver(new NullObserver());
+
+            const test1 = tracker.getCharacter('Test1');
+            expect(test1.name).toBe('Test1');
+        });
     });
 });
+
+class TrackerFactoryStub implements TrackerFactory {
+    createFileManager(): FileManager {
+        return new MockFileManager();
+    }
+    
+    createAutosaveStrategy(): AutosaveStrategy {
+        return new NoAutosaveStrategy();
+    }
+
+    createAutoloadStrategy(): AutoloadStrategy {
+        return new NoAutoloadStrategy();
+    }
+}
+
+class TrackerFactoryStub2 implements TrackerFactory {
+    private _mockFileManager: FileManager;
+
+    constructor(mockFileManager: FileManager) {
+        this._mockFileManager = mockFileManager;
+    }
+
+    createFileManager(): FileManager {
+        return this._mockFileManager;
+    }
+    
+    createAutosaveStrategy(): AutosaveStrategy {
+        return new NoAutosaveStrategy();
+    }
+
+    createAutoloadStrategy(): AutoloadStrategy {
+        return new NoAutoloadStrategy();
+    }
+}
+
+class TrackerFactoryStub3 implements TrackerFactory {
+    createFileManager(): FileManager {
+        return new SyncJSONFileManager();
+    }
+    
+    createAutosaveStrategy(): AutosaveStrategy {
+        return new NoAutosaveStrategy();
+    }
+
+    createAutoloadStrategy(): AutoloadStrategy {
+        return new NoAutoloadStrategy();
+    }
+}
 
 class ObserverSpy implements TrackerObserver {
     private _endOfTurnCalled: number;

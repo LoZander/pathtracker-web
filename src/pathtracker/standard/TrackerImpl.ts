@@ -3,23 +3,30 @@ import { TrackerObserver, CharacterObserver } from "../framework/ObserverInterfa
 import { FileManager } from "../framework/FileManager";
 import path from 'path';
 import { AutosaveStrategy } from 'pathtracker/framework/AutosaveStrategy';
+import { AutoloadStrategy } from 'pathtracker/framework/AutoloadStrategy';
+import { TrackerFactory } from '../framework/TrackerFactory';
+import { NullObserver } from '../doubles/NullDoubles';
 
 export class TrackerImpl implements Tracker {
     private _characters: Character[];
     private _characterInTurn: Character | null;
     private _round: number;
-    private _trackerObserver: TrackerObserver;
+    private _trackerObserver: TrackerObserver = new NullObserver();
     private _characterObservers: CharacterObserver[];
     private _fileManager: FileManager;
     private _autosaveStrategy: AutosaveStrategy;
+    private _autoloadStrategy: AutoloadStrategy;
     
-    constructor(fileManager: FileManager, autosaveStrategy: AutosaveStrategy) {
+    constructor(factory: TrackerFactory) {
         this._characters = [];
         this._characterInTurn = null;
         this._round = 0;
         this._characterObservers = [];
-        this._fileManager = fileManager;
-        this._autosaveStrategy = autosaveStrategy;
+        this._fileManager = factory.createFileManager();
+        this._autosaveStrategy = factory.createAutosaveStrategy();
+        this._autoloadStrategy = factory.createAutoloadStrategy();
+
+        this._autoloadStrategy.autoload(this);
     }
 
     save(filename: string): void {
@@ -27,7 +34,7 @@ export class TrackerImpl implements Tracker {
     }
     
     load(filename: string): void {
-        const loaded = this._fileManager.read(filename);
+        let loaded = this._fileManager.read(filename);
         this._characters = loaded.characters as Character[];
         this._characterInTurn = loaded.characterInTurn as Character;
         this._round = loaded.round as number;
@@ -125,6 +132,9 @@ export class TrackerImpl implements Tracker {
         if(removee == this.characterInTurn) this.nextTurn();
         this.characters.splice(removeIndex,1);
 
+        const trackerIsEmpty: boolean = this.size === 0;
+        if(trackerIsEmpty) this.characterInTurn = null;
+
         this._trackerObserver.characterRemoved(removee);
 
         this._autosaveStrategy.autosave(this);
@@ -147,6 +157,7 @@ export class TrackerImpl implements Tracker {
 
     addTrackerObserver(trackerObserver: TrackerObserver): void {
         this._trackerObserver = trackerObserver;
+        this._trackerObserver.loaded(this);
     }
 
     addCharacterObserver(characterObserver: CharacterObserver): void {

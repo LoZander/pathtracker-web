@@ -3,15 +3,21 @@ import { Tracker } from './pathtracker/framework/TrackerInterfaces';
 import { Controller } from "./pathtracker/framework/GuiInterfaces";
 import { GuiImpl } from './pathtracker/gui/GuiImpl';
 import { TrackerImpl } from './pathtracker/standard/TrackerImpl';
-import { SyncJSONFileManager } from './pathtracker/standard/SyncJSONFileManager';
-import { StandardAutosaveStrategy } from './pathtracker/standard/StandardAutosaveStrategy';
-import { NoAutosaveStrategy } from './pathtracker/standard/NoAutosaveStrategy';
 import { ipcRenderer } from 'electron';
+import { StandardTrackerFactory } from './pathtracker/standard/StandardTrackerFactory';
+import { SyncJSONFileManager } from './pathtracker/standard/SyncJSONFileManager';
+import { NoAutoloadStrategy } from './pathtracker/standard/NoAutoloadStrategy';
+import { StandardAutosaveStrategy } from './pathtracker/standard/StandardAutosaveStrategy';
+import { StandardAutoloadStrategy } from './pathtracker/standard/StandardAutoloadStrategy';
 
-const tracker: Tracker = new TrackerImpl(new SyncJSONFileManager(), new StandardAutosaveStrategy());
+const tracker: Tracker = new TrackerImpl({
+    createFileManager: () => new SyncJSONFileManager(),
+    createAutoloadStrategy: () => new StandardAutoloadStrategy(),
+    createAutosaveStrategy: () => new StandardAutosaveStrategy()
+});
 const gui = new GuiImpl(tracker);
-const controller: Controller = new ControllerImpl(tracker);
 tracker.addTrackerObserver(gui);
+const controller: Controller = new ControllerImpl(tracker);
 
 ipcRenderer.on('request_next_turn', (event,_) => {
     tracker.nextTurn();
