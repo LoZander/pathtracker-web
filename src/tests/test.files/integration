@@ -7,5 +7,6 @@
     }
   ],
   "characterInTurn": null,
-  "round": 0
+  "round": 0,
+  "characterObservers": []
 }

@@ -370,14 +370,39 @@ describe('TDD of TrackerImpl', () => {
             tracker = new TrackerImpl(new SyncJSONFileManager());
             tracker.addTrackerObserver(new NullObserver());
             tracker.addCharacter('Test', 20, CharacterType.PLAYER);
-            tracker.save(path.join(__dirname, 'test.files', 'integration'));
+            tracker.save(path.join(__dirname, 'test.files', 'integration.json'));
 
             tracker = new TrackerImpl(new SyncJSONFileManager());
             tracker.addTrackerObserver(new NullObserver());
-            tracker.load(path.join(__dirname, 'test.files', 'integration'));
+            tracker.load(path.join(__dirname, 'test.files', 'integration.json'));
             const test = tracker.getCharacter('Test');
             expect(test).toBeDefined();
-        })
+        });
+
+        test('Integration test: saving saves character in turn', () => {
+            tracker = new TrackerImpl(new SyncJSONFileManager());
+            tracker.addTrackerObserver(new NullObserver());
+            tracker.addCharacter('Test1', 30, CharacterType.PLAYER);
+            tracker.addCharacter('Test2', 20, CharacterType.PLAYER);
+            tracker.addCharacter('Test3', 10, CharacterType.PLAYER);
+
+            tracker.nextTurn();
+            tracker.nextTurn();
+
+            tracker.save(path.join(__dirname, 'test.files', 'integration2.json'));
+            
+            tracker = new TrackerImpl(new SyncJSONFileManager());
+            tracker.addTrackerObserver(new NullObserver());
+            tracker.load(path.join(__dirname, 'test.files', 'integration2.json'))
+
+            const test = tracker.characterInTurn;
+            expect(test.name).toBe('Test2');
+
+            tracker.nextTurn();
+            
+            const test2 = tracker.characterInTurn;
+            expect(test2.name).toBe('Test3');
+        });
     });
 });
 
@@ -386,12 +411,17 @@ class ObserverSpy implements TrackerObserver {
     private _characterAddedCalled: number;
     private _characterRemovedCalled: number;
     private _clearCalled: number;
+    private _loadedCalled: number;
 
     constructor() {
         this._endOfTurnCalled = 0;
         this._characterAddedCalled = 0;
         this._characterRemovedCalled = 0;
         this._clearCalled = 0;
+        this._loadedCalled = 0;
+    }
+    loaded(tracker: Tracker): void {
+        this._loadedCalled++;
     }
     characterAdded(character: Character): void {
         this._characterAddedCalled++;
@@ -412,6 +442,7 @@ class ObserverSpy implements TrackerObserver {
     get characterAddedCalled(): number {return this._characterAddedCalled}
     get characterRemovedCalled(): number {return this._characterRemovedCalled}
     get clearCalled(): number {return this._clearCalled}
+    get loadedCalled(): number {return this._loadedCalled}
 }
 
 class MockFileManager implements FileManager {

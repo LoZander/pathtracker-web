@@ -1,0 +1,25 @@
+{
+  "characters": [
+    {
+      "name": "Test1",
+      "initiative": 30,
+      "type": "PLAYER"
+    },
+    {
+      "name": "Test2",
+      "initiative": 20,
+      "type": "PLAYER"
+    },
+    {
+      "name": "Test3",
+      "initiative": 10,
+      "type": "PLAYER"
+    }
+  ],
+  "characterInTurn": {
+    "name": "Test2",
+    "initiative": 20,
+    "type": "PLAYER"
+  },
+  "round": 1
+}

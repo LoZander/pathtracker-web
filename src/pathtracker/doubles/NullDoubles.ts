@@ -1,7 +1,8 @@
-import { Character } from "../framework/TrackerInterfaces.js";
+import { Character, Tracker } from "../framework/TrackerInterfaces.js";
 import { CharacterObserver, TrackerObserver } from "../framework/ObserverInterfaces";
 
 export class NullObserver implements TrackerObserver,CharacterObserver {
+    loaded(tracker: Tracker): void {}
     nameChanged(name: string): void {}
     initiativeChanged(initiative: number): void {}
     characterInTurnChanged(inturn: Character): void {}

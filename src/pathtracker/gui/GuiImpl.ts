@@ -34,6 +34,10 @@ export class GuiImpl implements Gui,TrackerObserver {
         document.getElementById('round').innerText = this._tracker.round + '';
     }
 
+    loaded(tracker: Tracker): void {
+        this.update();
+    }
+
     endOfTurn(next: Character): void {
         document.getElementById('round').innerText = this._tracker.round + '';
     }

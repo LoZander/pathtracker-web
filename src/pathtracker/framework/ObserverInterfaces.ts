@@ -1,4 +1,4 @@
-import { Character } from "./TrackerInterfaces";
+import { Character, Tracker } from "./TrackerInterfaces";
 
 /**
  * Observer for the tracker, as part of an observer pattern.
@@ -31,6 +31,11 @@ export interface TrackerObserver {
      * meaning all characters are removed, round count reset, etc.
      */
     clear(): void;
+
+    /**
+     * Handles the observers reaction to the loading of a saved tracker.
+     */
+    loaded(tracker: Tracker): void;
 }
 /**
  * Observer for an individual character on the tracker, as a part of an observer pattern.

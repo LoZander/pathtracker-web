@@ -1,6 +1,7 @@
 import {Tracker,Character, CharacterType} from '../framework/TrackerInterfaces';
 import { TrackerObserver, CharacterObserver } from "../framework/ObserverInterfaces";
 import { FileManager } from "../framework/FileManager";
+import { SyncJSONFileManager } from './SyncJSONFileManager';
 export class TrackerImpl implements Tracker {
     private _characters: Character[];
     private _characterInTurn: Character | null;
@@ -22,11 +23,11 @@ export class TrackerImpl implements Tracker {
     }
     
     load(filename: string): void {
-        const tracker = this._fileManager.read(filename);
-        this._characters = tracker.characters;
-        this._characterInTurn = tracker.characterInTurn;
-        this._round = tracker.round;
-        this._trackerObserver.characterAdded(null);
+        const loaded = this._fileManager.read(filename);
+        this._characters = loaded.characters as Character[];
+        this._characterInTurn = loaded.characterInTurn as Character;
+        this._round = loaded.round as number;
+        this._trackerObserver.loaded(this);
     }
 
     get characters(): Character[] {
@@ -37,7 +38,7 @@ export class TrackerImpl implements Tracker {
         return this._round;
     }
 
-    get characterInTurn() {
+    get characterInTurn(): Character {
         return this._characterInTurn;
     }
 
@@ -69,7 +70,8 @@ export class TrackerImpl implements Tracker {
 
     private nextIndex(): number {
         if(this.characterInTurn === null) return 0;
-        return (this.characters.indexOf(this.characterInTurn) + 1) % this.size;
+        const beforeIndex = this.characters.findIndex(c => c.name == this.characterInTurn.name)
+        return (beforeIndex + 1) % this.size;
     }
 
     addCharacter(name: string, initiative: number, type: CharacterType): void {
