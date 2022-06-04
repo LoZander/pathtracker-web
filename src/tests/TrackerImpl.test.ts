@@ -254,7 +254,7 @@ describe('TDD of TrackerImpl', () => {
     describe('TDD of observer pattern', () => {
         let observer: ObserverSpy;
         beforeEach(() => {
-            tracker = new TrackerImpl(new SyncJSONFileManager());
+            tracker = new TrackerImpl(new MockFileManager());
             observer = new ObserverSpy();
             tracker.addTrackerObserver(observer);
         });
@@ -305,6 +305,12 @@ describe('TDD of TrackerImpl', () => {
         test('Ending the turn, should not call upon endOfTurn if tracker is empty', () => {
             tracker.nextTurn();
             expect(observer.endOfTurnCalled).toBe(0);
+        });
+
+        test('Loading a save should call upon loaded', () => {
+            tracker.save(path.join(__dirname, 'save.json'));
+            tracker.load(path.join(__dirname, 'save.json'));
+            expect(observer.loadedCalled).toBe(1);
         });
     });
 
