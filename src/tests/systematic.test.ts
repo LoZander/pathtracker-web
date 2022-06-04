@@ -1,9 +1,9 @@
 import { Tracker, CharacterType } from '../pathtracker/framework/TrackerInterfaces'
 import { TrackerImpl } from '../pathtracker/standard/TrackerImpl'
 import { NullObserver } from '../pathtracker/doubles/NullDoubles'
-import { SyncJSONFileManager } from '../pathtracker/standard/SyncJSONFileManager';
-import { NoAutosaveStrategy } from '../pathtracker/standard/NoAutosaveStrategy';
-import { NoAutoloadStrategy } from '../pathtracker/standard/NoAutoloadStrategy';
+import { SyncJSONFileManager } from '../pathtracker/standard/filemanager/SyncJSONFileManager';
+import { NoAutosaveStrategy } from '../pathtracker/standard/strategies/autosave/NoAutosaveStrategy';
+import { NoAutoloadStrategy } from '../pathtracker/standard/strategies/autoload/NoAutoloadStrategy';
 
 describe('Systematic testing of nextTurn and round count updating', () => {
     let tracker: Tracker;

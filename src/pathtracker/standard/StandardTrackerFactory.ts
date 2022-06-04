@@ -1,10 +1,10 @@
-import { AutoloadStrategy } from "pathtracker/framework/AutoloadStrategy";
-import { AutosaveStrategy } from "pathtracker/framework/AutosaveStrategy";
+import { AutoloadStrategy } from "pathtracker/framework/strategies/AutoloadStrategy";
+import { AutosaveStrategy } from "pathtracker/framework/strategies/AutosaveStrategy";
 import { FileManager } from "pathtracker/framework/FileManager";
 import { TrackerFactory } from "pathtracker/framework/TrackerFactory";
-import { StandardAutoloadStrategy } from "./StandardAutoloadStrategy";
-import { StandardAutosaveStrategy } from "./StandardAutosaveStrategy";
-import { SyncJSONFileManager } from "./SyncJSONFileManager";
+import { StandardAutoloadStrategy } from "./strategies/autoload/StandardAutoloadStrategy";
+import { StandardAutosaveStrategy } from "./strategies/autosave/StandardAutosaveStrategy";
+import { SyncJSONFileManager } from "./filemanager/SyncJSONFileManager";
 
 export class StandardTrackerFactory implements TrackerFactory {
     createFileManager(): FileManager {

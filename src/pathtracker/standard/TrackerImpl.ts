@@ -1,9 +1,8 @@
 import {Tracker,Character, CharacterType} from '../framework/TrackerInterfaces';
 import { TrackerObserver, CharacterObserver } from "../framework/ObserverInterfaces";
 import { FileManager } from "../framework/FileManager";
-import path from 'path';
-import { AutosaveStrategy } from 'pathtracker/framework/AutosaveStrategy';
-import { AutoloadStrategy } from 'pathtracker/framework/AutoloadStrategy';
+import { AutosaveStrategy } from '../framework/strategies/AutosaveStrategy';
+import { AutoloadStrategy } from '../framework/strategies/AutoloadStrategy';
 import { TrackerFactory } from '../framework/TrackerFactory';
 import { NullObserver } from '../doubles/NullDoubles';
 

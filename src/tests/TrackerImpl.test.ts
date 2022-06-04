@@ -3,15 +3,15 @@ import { FileManager } from '../pathtracker/framework/FileManager';
 import { TrackerObserver } from '../pathtracker/framework/ObserverInterfaces';
 import { TrackerImpl } from "../pathtracker/standard/TrackerImpl";
 import { NullObserver } from "../pathtracker/doubles/NullDoubles";
-import { SyncJSONFileManager } from "../pathtracker/standard/SyncJSONFileManager";
-import { NoAutosaveStrategy } from "../pathtracker/standard/NoAutosaveStrategy";
-import { StandardAutosaveStrategy} from "../pathtracker/standard/StandardAutosaveStrategy";
+import { SyncJSONFileManager } from "../pathtracker/standard/filemanager/SyncJSONFileManager";
 import { TrackerFactory } from "../pathtracker/framework/TrackerFactory";
+import { AutosaveStrategy } from "../pathtracker/framework/strategies/AutosaveStrategy";
+import { NoAutosaveStrategy } from "../pathtracker/standard/strategies/autosave/NoAutosaveStrategy";
+import { StandardAutosaveStrategy} from "../pathtracker/standard/strategies/autosave/StandardAutosaveStrategy";
+import { AutoloadStrategy } from "../pathtracker/framework/strategies/AutoloadStrategy";
+import { NoAutoloadStrategy } from "../pathtracker/standard/strategies/autoload/NoAutoloadStrategy";
+import { StandardAutoloadStrategy } from "../pathtracker/standard/strategies/autoload/StandardAutoloadStrategy";
 import path from "path";
-import { AutosaveStrategy } from "../pathtracker/framework/AutosaveStrategy";
-import { AutoloadStrategy } from "../pathtracker/framework/AutoloadStrategy";
-import { NoAutoloadStrategy } from "../pathtracker/standard/NoAutoloadStrategy";
-import { StandardAutoloadStrategy } from "../pathtracker/standard/StandardAutoloadStrategy";
 
 describe('TDD of TrackerImpl', () => {
     describe('TDD of adding characters', () => {

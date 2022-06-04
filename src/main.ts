@@ -4,11 +4,11 @@ import { Controller } from "./pathtracker/framework/GuiInterfaces";
 import { GuiImpl } from './pathtracker/gui/GuiImpl';
 import { TrackerImpl } from './pathtracker/standard/TrackerImpl';
 import { ipcRenderer } from 'electron';
-import { StandardTrackerFactory } from './pathtracker/standard/StandardTrackerFactory';
-import { SyncJSONFileManager } from './pathtracker/standard/SyncJSONFileManager';
-import { NoAutoloadStrategy } from './pathtracker/standard/NoAutoloadStrategy';
-import { StandardAutosaveStrategy } from './pathtracker/standard/StandardAutosaveStrategy';
-import { StandardAutoloadStrategy } from './pathtracker/standard/StandardAutoloadStrategy';
+import { SyncJSONFileManager } from './pathtracker/standard/filemanager/SyncJSONFileManager';
+import { StandardAutosaveStrategy } from './pathtracker/standard/strategies/autosave/StandardAutosaveStrategy';
+import { StandardAutoloadStrategy } from './pathtracker/standard/strategies/autoload/StandardAutoloadStrategy';
+import { NoAutoloadStrategy } from './pathtracker/standard/strategies/autoload/NoAutoloadStrategy';
+import { NoAutosaveStrategy } from './pathtracker/standard/strategies/autosave/NoAutosaveStrategy';
 
 const tracker: Tracker = new TrackerImpl({
     createFileManager: () => new SyncJSONFileManager(),

@@ -1,4 +1,4 @@
-import { FileManager } from "../framework/FileManager";
+import { FileManager } from "../../framework/FileManager";
 import * as fs from 'fs';
 
 export class SyncJSONFileManager implements FileManager {

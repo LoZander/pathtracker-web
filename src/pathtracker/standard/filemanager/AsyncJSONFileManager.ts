@@ -1,4 +1,4 @@
-import { FileManager } from "../framework/FileManager";
+import { FileManager } from "../../framework/FileManager";
 import fs from 'fs';
 export class AsyncJSONFileManager implements FileManager {
     async read(dir: string): Promise<any> {
