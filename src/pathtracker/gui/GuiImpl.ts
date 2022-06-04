@@ -31,17 +31,24 @@ export class GuiImpl implements Gui,TrackerObserver {
     
     clear(): void {
         this._charactersDiv.innerHTML = '';
-        document.getElementById('round').innerText = this._tracker.round + '';
+        this.setRoundText();
     }
 
     loaded(tracker: Tracker): void {
         this.update();
+        this.setRoundText();
+
     }
 
     endOfTurn(next: Character): void {
+        this.setRoundText();
+    }
+
+    
+    private setRoundText() {
         document.getElementById('round').innerText = this._tracker.round + '';
     }
-    
+
     characterAdded(character: Character): void {
         this.update();
     }
